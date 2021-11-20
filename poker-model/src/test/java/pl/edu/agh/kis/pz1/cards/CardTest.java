@@ -40,6 +40,9 @@ public class CardTest {
         assertEquals(c1, c1);
     }
 
+    /**
+     * Hello
+     */
     @Test
     public void testHashCode() {
         assertEquals(c1.hashCode(),c2.hashCode());
