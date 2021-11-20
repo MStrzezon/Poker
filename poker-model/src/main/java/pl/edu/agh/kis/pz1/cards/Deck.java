@@ -33,10 +33,6 @@ public class Deck {
 
     public void addCard(Card c) { cards.add(c); }
 
-    /**
-     * Metoda produkująca posortowaną talię kart
-     * @return posortowana talia kart
-     */
     public void fabryki() {
         cards.clear();
         for (Card.Suit suit : Card.Suit.values()) {
@@ -46,10 +42,6 @@ public class Deck {
         }
     }
 
-    /**
-     * Metoda dostająca talię kart i zwracająca ją w posortowanej kolejności
-     * @return posortowana talia kart
-     */
     public void shuffle() {
         Collections.shuffle(cards);
     }
