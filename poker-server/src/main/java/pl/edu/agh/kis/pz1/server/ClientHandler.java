@@ -1,18 +1,23 @@
-package pl.edu.agh.kis.pz1;
+package pl.edu.agh.kis.pz1.server;
+
+import pl.edu.agh.kis.pz1.exceptions.TooManyClientsException;
+import pl.edu.agh.kis.pz1.game.Game;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class ClientHandler implements Runnable {
-
+    public Game game;
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
     private String clientUsername;
 
-    public ClientHandler(Socket socket) {
+    public int getNumberOfClients() { return clientHandlers.size(); }
+
+    public ClientHandler(Socket socket) throws IOException {
         try {
             this.socket = socket;
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -24,11 +29,9 @@ public class ClientHandler implements Runnable {
                     "\nEnter /help to see all commands.");
             bufferedWriter.newLine();
             bufferedWriter.flush();
-            help();
         } catch (IOException e) {
             closeEverything(socket, bufferedReader, bufferedWriter);
         }
-
     }
 
     @Override
@@ -37,7 +40,9 @@ public class ClientHandler implements Runnable {
         while (socket.isConnected()) {
             try {
                 messageFromClient = bufferedReader.readLine();
-                broadcastMessage(messageFromClient);
+                runCommand(messageFromClient);
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
             } catch (IOException e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);
                 break;
@@ -84,13 +89,46 @@ public class ClientHandler implements Runnable {
     public String help() throws IOException {
         String help_message = """
                 ------------------------------------------------
-                /help - print all commands.
-                /hand - print all your cards.
+                IN MENU:
+                    /help - print all commands.
+                    /players - print number of players.
+                    /start - start poker game (min. 2 players).
+                IN GAME:          
+                    /hand - print all your cards.   
                 ------------------------------------------------
                 """;
         bufferedWriter.write(help_message);
-        bufferedWriter.newLine();
         bufferedWriter.flush();
         return help_message;
+    }
+
+    public int numberOfPlayers() throws IOException {
+        int numberOfPlayers = clientHandlers.size();
+        bufferedWriter.write(Integer.toString(numberOfPlayers));
+        bufferedWriter.newLine();
+        bufferedWriter.flush();
+        return numberOfPlayers;
+    }
+
+    public String runCommand(String command) throws IOException {
+        switch (command) {
+            case "/help" -> {
+                help();
+                return "/help";
+            }
+            case "/players" -> {
+                numberOfPlayers();
+                return "/players";
+            }
+            case "/start" -> {
+                if (getNumberOfClients() < 2) {
+                    bufferedWriter.write("Too many clients to play. Wait for another player");
+                    bufferedWriter.flush();
+                } else {
+                    game = new Game(1, 5);
+                }
+            }
+        }
+        return "Command not recognized. Enter /help to print all commands";
     }
 }

@@ -1,4 +1,5 @@
-package pl.edu.agh.kis.pz1;
+package pl.edu.agh.kis.pz1.server;
+
 
 import java.io.IOException;
 import java.net.ServerSocket;
