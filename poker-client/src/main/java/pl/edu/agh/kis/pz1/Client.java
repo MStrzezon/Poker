@@ -75,7 +75,7 @@ public class Client {
 
     public static void main(String[] args) throws IOException {
         Scanner s = new Scanner(System.in);
-        System.out.println("Enter your username for the game: ");
+        System.out.println("WELCOME IN POKER GAME!\nEnter your username for the game: ");
         String username = s.nextLine();
         Socket socket = new Socket("localhost", 1234);
         Client client = new Client(socket, username);
