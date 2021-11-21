@@ -1,4 +1,4 @@
-package pl.edu.agh.pz1;
+package pl.edu.agh.kis.pz1;
 
 import java.io.*;
 import java.net.Socket;
