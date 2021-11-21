@@ -1,7 +1,5 @@
 package pl.edu.agh.kis.pz1;
 
-import com.sun.tools.jdeprscan.scan.Scan;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
