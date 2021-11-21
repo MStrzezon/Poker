@@ -20,6 +20,11 @@ public class ClientHandler implements Runnable {
             this.clientUsername = bufferedReader.readLine();
             clientHandlers.add(this);
             broadcastMessage("SERVER: " + clientUsername + " has entered a game");
+            bufferedWriter.write("Welcome " + clientUsername + ". A number of participants: " + clientHandlers.size() +
+                    "\nEnter /help to see all commands.");
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+            help();
         } catch (IOException e) {
             closeEverything(socket, bufferedReader, bufferedWriter);
         }
@@ -74,5 +79,18 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String help() throws IOException {
+        String help_message = """
+                ------------------------------------------------
+                /help - print all commands.
+                /hand - print all your cards.
+                ------------------------------------------------
+                """;
+        bufferedWriter.write(help_message);
+        bufferedWriter.newLine();
+        bufferedWriter.flush();
+        return help_message;
     }
 }
