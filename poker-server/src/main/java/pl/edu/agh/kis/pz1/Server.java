@@ -22,7 +22,7 @@ public class Server {
                 thread.start();
             }
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
     public void closeServerSocket() {
