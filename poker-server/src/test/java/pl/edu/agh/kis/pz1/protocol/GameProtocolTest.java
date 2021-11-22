@@ -106,6 +106,27 @@ public class GameProtocolTest {
     }
 
     @Test
+    public void raiseProcess() {
+        gp.processInput(0, "/join", numbers);
+        gp.processInput(1, "/join", numbers);
+        gp.processInput(2, "/join", numbers);
+        gp.processInput(0, "/start", numbers);
+        numbers.clear();
+        numbers.add(15);
+        assertEquals("Player 0 raised.\nNow player 1\nAll funds: 30.    Current bet: 15", gp.processInput(0, "/raise", numbers)[1]);
+        assertEquals("Player number 1", gp.processInput(0, "/status", numbers)[1]);
+        assertEquals("Player 1 called.\nNow player 2\nAll funds: 45.    Current bet: 15", gp.processInput(1, "/call", numbers)[1]);
+        assertEquals("Player number 2", gp.processInput(0, "/status", numbers)[1]);
+        numbers.clear();
+        numbers.add(5);
+        assertEquals("You should raise bet!", gp.processInput(2, "/raise", numbers)[1]);
+        numbers.clear();
+        numbers.add(20);
+        assertEquals("Player 2 raised.\nNow time to draw!\nAll funds: 65.    Current bet: 20", gp.processInput(2, "/raise", numbers)[1]);
+        assertEquals("It's draw time!", gp.processInput(0, "/status", numbers)[1]);
+    }
+
+    @Test
     public void numberOfPlayers() {
         assertEquals(0, Integer.parseInt(gp.numberOfPlayers()));
         gp.processInput(1, "/join", numbers);

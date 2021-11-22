@@ -113,7 +113,9 @@ public class GameProtocol {
                     }
                     if (game.getCurrentPlayer() == 0) {
                         state = DRAW;
-                        return new String[]{"MORE", "Time to draw!"};
+                        return new String[]{"MORE", "Player "+Integer.toString(current)+" raised.\n" +"Now time to draw!\nAll funds: "
+                                +Integer.toString(game.getAllFunds())
+                                +".    Current bet: "+ Integer.toString(game.getBet())};
                     }
                     return new String[]{"MORE", "Player "+Integer.toString(current)+" raised.\nNow player "+
                             Integer.toString(game.getCurrentPlayer())+"\nAll funds: "+Integer.toString(game.getAllFunds())
