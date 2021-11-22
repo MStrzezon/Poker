@@ -23,19 +23,25 @@ public class GameProtocol {
                 return new String[]{"ONE", numberOfPlayers()};
             }
             case "/join" -> {
-                if (game.getPlayer(playerId) == null && game.addPlayer(playerId)) {
+                if (state==WAITING && !game.isInGame(playerId) && game.addPlayer(playerId)) {
                     return new String[]{"ONE", "You joined the game, your number in game: "+ (game.getPlayers().size() - 1)};
-                } else if (game.getPlayer(playerId) != null) {
-                    return new String[]{"ONE", "You are joined the game"};
+                } else if (game.isInGame(playerId)) {
+                    return new String[]{"ONE", "You are already joined the game."};
+                }
+                if (state!=WAITING) {
+                    return new String[]{"ONE", "Game already started. You cannot join"};
                 }
                 return new String[]{"ONE", "Too many person in game"};
             }
             case "/start" -> {
-                if (game.getPlayer(playerId) == null) {
+                if (state==WAITING && !game.isInGame(playerId)) {
                     return new String[]{"ONE", "You have to join to the game"};
                 }
-                if (game.getPlayers().size() < 2) {
+                if (state==WAITING && game.getPlayers().size() < 2) {
                     return new String[]{"ONE", "Wait for another player!"};
+                }
+                if (state!=WAITING) {
+                    return new String[]{"ONE", "Game already started!"};
                 }
                 state = ROUND;
                 game.deal();
@@ -43,16 +49,22 @@ public class GameProtocol {
                 +".    Current bet: "+ Integer.toString(game.getBet())};
             }
             case "/hand" -> {
-                if (state==ROUND || state==DRAW) {
+                if ((state==ROUND || state==DRAW) && game.isInGame(playerId)) {
                     StringBuilder cards = new StringBuilder();
                     for (Card card : game.getPlayer(playerId).getHand().getCards()) {
                         cards.append(card.toString()).append("\n");
                     }
                     return new String[]{"ONE", cards.toString()};
                 }
+                if (!game.isInGame(playerId)) {
+                    return new String[]{"ONE", "You are not playing the game!"};
+                }
                 return new String[]{"ONE", "Game not started!"};
             }
             case "/status" -> {
+                if (game.isFinish()) {
+                    return new String[]{"ONE", "Game is finished. Enter /result to show results."};
+                }
                 if (state==WAITING) {
                     return new String[]{"ONE", "Game not started!"};
                 }
@@ -63,10 +75,7 @@ public class GameProtocol {
                     return new String[]{"ONE", "Player number "+Integer.toString(game.getCurrentPlayer())};
                 }
                 if (state == DRAW) {
-                    return new String[]{"ONE", "It's draw time"};
-                }
-                if (game.isFinish()) {
-                    return new String[]{"ONE", "Game is finished. Enter /result to show results."};
+                    return new String[]{"ONE", "It's draw time!"};
                 }
             }
             case "/result" -> {
@@ -77,13 +86,15 @@ public class GameProtocol {
                 }
             }
             case "/call" -> {
-                if (state == ROUND && game.getCurrentPlayer()==game.getPlayers().indexOf(game.getPlayer(playerId))) {
-                    game.getPlayer(playerId).call();
+                int playerIndex = game.getPlayers().indexOf(game.getPlayer(playerId));
+                if (state == ROUND && game.getCurrentPlayer()==playerIndex) {
                     int current = game.getCurrentPlayer();
-                    game.nextPlayer();
+                    game.makeAMove(1, numbers.get(0), game.getPlayers().get(playerIndex));
                     if (game.getCurrentPlayer() == 0) {
                         state = DRAW;
-                        return new String[]{"MORE", "Time to draw!"};
+                        return new String[]{"MORE", "Player "+Integer.toString(current)+" called.\n" +"Now time to draw!\nAll funds: "
+                                +Integer.toString(game.getAllFunds())
+                                +".    Current bet: "+ Integer.toString(game.getBet())};
                     }
                     return new String[]{"MORE", "Player "+Integer.toString(current)+" called.\n" +
                             "Now player "+Integer.toString(game.getCurrentPlayer())+"\nAll funds: "+Integer.toString(game.getAllFunds())
@@ -93,11 +104,13 @@ public class GameProtocol {
                 }
             }
             case "/raise" -> {
-                if (state == ROUND && game.getCurrentPlayer()==game.getPlayers().indexOf(game.getPlayer(playerId))) {
+                int playerIndex = game.getPlayers().indexOf(game.getPlayer(playerId));
+                if (state == ROUND && game.getCurrentPlayer()==playerIndex) {
                     if (numbers.get(0)==-1) return new String[]{"ONE", "In raise enter wage!"};
-                    game.getPlayer(playerId).raise(numbers.get(0));
                     int current = game.getCurrentPlayer();
-                    game.nextPlayer();
+                    if(!game.makeAMove(2, numbers.get(0), game.getPlayers().get(playerIndex))) {
+                        return new String[]{"ONE", "You should raise bet!"};
+                    }
                     if (game.getCurrentPlayer() == 0) {
                         state = DRAW;
                         return new String[]{"MORE", "Time to draw!"};
@@ -110,10 +123,10 @@ public class GameProtocol {
                 }
             }
             case "/fold" -> {
-                if (state == ROUND && game.getCurrentPlayer()==game.getPlayers().indexOf(game.getPlayer(playerId))) {
-                    game.getPlayer(playerId).fold();
+                int playerIndex = game.getPlayers().indexOf(game.getPlayer(playerId));
+                if (state == ROUND && game.getCurrentPlayer()==playerIndex) {
                     int current = game.getCurrentPlayer();
-                    game.nextPlayer();
+                    game.makeAMove(2, numbers.get(0), game.getPlayers().get(playerIndex));
                     if (game.getCurrentPlayer() == 0) {
                         state = DRAW;
                         return new String[]{"MORE", "Time to draw!"};
@@ -142,6 +155,7 @@ public class GameProtocol {
                 IN MENU:
                     /help - print all commands.
                     /players - print number of players.
+                    /ante - set ante (you have to set ante before a game).
                     /start - start poker game (min. 2 players).
                 IN GAME:          
                     /number - your number in game.

@@ -181,15 +181,14 @@ public class GameTest {
     public void isFinish() {
         game.addPlayer(0);
         game.addPlayer(1);
+        game.addPlayer(2);
         game.nextPlayer();
         game.nextPlayer();
         assertFalse(game.isFinish());
         game.nextPlayer();
         assertFalse(game.isFinish());
         game.nextPlayer();
-        assertFalse(game.isFinish());
         game.nextPlayer();
-        assertFalse(game.isFinish());
         game.nextPlayer();
         assertTrue(game.isFinish());
     }
@@ -214,12 +213,30 @@ public class GameTest {
     }
 
 
-//    @Test
-//    public void round() throws NoPlacesException, BadMoveException {
-//        String input = "1 2 1 1";
-//        InputStream in = new ByteArrayInputStream(input.getBytes());
-//        for (int i = 0; i < 4; i++) game.addPlayer();
-//        game.deal();
-//        game.round(in);
-//    }
+    @Test
+    public void makeAMove() {
+        game.addPlayer(0);
+        game.addPlayer(1);
+        game.addPlayer(2);
+        assertTrue(game.makeAMove(1, 1, game.getPlayers().get(0)));
+        assertEquals(1, game.getCurrentPlayer());
+        assertEquals(1, game.getCurrentRound());
+        assertTrue(game.makeAMove(1, 1, game.getPlayers().get(1)));
+        assertEquals(2, game.getCurrentPlayer());
+        assertEquals(1, game.getCurrentRound());
+        assertFalse(game.makeAMove(2, 1, game.getPlayers().get(2)));
+        assertEquals(0, game.getCurrentPlayer());
+        assertEquals(2, game.getCurrentRound());
+        assertTrue(game.makeAMove(1, 1, game.getPlayers().get(2)));
+        assertEquals(1, game.getCurrentPlayer());
+        assertEquals(2, game.getCurrentRound());
+    }
+
+    @Test
+    public void isInGame() {
+        game.addPlayer(0);
+        assertFalse(game.isInGame(1));
+        game.addPlayer(1);
+        assertTrue(game.isInGame(1));
+    }
 }

@@ -90,21 +90,33 @@ public class Game {
         }
     }
 
-    public void makeAMove(int type, int newWage, Player player) {
+    public boolean makeAMove(int type, int newBet, Player player) {
         switch (type) {
             case(1) -> {
                 player.call();
                 addFunds(bet);
+                nextPlayer();
             }
             case(2) -> {
-                player.raise(newWage);
-                bet = newWage;
+                player.raise(newBet);
+                nextPlayer();
+                if (newBet <= bet) return false;
+                bet = newBet;
                 addFunds(bet);
             }
             case(3) -> {
                 player.fold();
+                nextPlayer();
             }
         }
+        return true;
+    }
+
+    public boolean isInGame(int id) {
+        for (Player player : getPlayers()) {
+            if (player.getId()==id) return true;
+        }
+        return false;
     }
 
     public void draw(List<Card> cardsToDraw, Player player) {
@@ -120,7 +132,7 @@ public class Game {
     }
 
     public boolean isFinish() {
-        return currentPlayer == 0 && currentRound == 4;
+        return currentPlayer == 0 && currentRound == 3;
     }
 
     public Player winner() {
