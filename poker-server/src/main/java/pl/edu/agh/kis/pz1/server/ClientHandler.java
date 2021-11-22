@@ -1,21 +1,22 @@
 package pl.edu.agh.kis.pz1.server;
 
-import pl.edu.agh.kis.pz1.cards.Card;
-import pl.edu.agh.kis.pz1.exceptions.TooManyClientsException;
-import pl.edu.agh.kis.pz1.game.Game;
+import pl.edu.agh.kis.pz1.protocol.GameProtocol;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class ClientHandler implements Runnable {
+    public static GameProtocol gp = new GameProtocol();
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
-    public static Game game = new Game(1, 5);
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
     private String clientUsername;
     private int id;
+    private static int counter = 0;
 
     public int getNumberOfClients() { return clientHandlers.size(); }
 
@@ -25,9 +26,8 @@ public class ClientHandler implements Runnable {
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.clientUsername = bufferedReader.readLine();
-            this.id = game.getPlayers().size();
+            id = counter++;
             clientHandlers.add(this);
-            game.addPlayer();
             broadcastMessage("SERVER: " + clientUsername + " has entered a game");
             bufferedWriter.write("Welcome " + clientUsername + ". A number of participants: " + clientHandlers.size() +
                     "\nEnter /help to see all commands.");
@@ -44,9 +44,19 @@ public class ClientHandler implements Runnable {
         while (socket.isConnected()) {
             try {
                 messageFromClient = bufferedReader.readLine();
-                runCommand(messageFromClient);
-                bufferedWriter.newLine();
-                bufferedWriter.flush();
+                String[] tokens  = messageFromClient.split(" ");
+                List<Integer> tmp = new ArrayList<>();
+                if (tokens.length > 1) {
+                    for (int i = 1; i < tokens.length; i++) tmp.add(Integer.parseInt(tokens[i]));
+                } else tmp.add(-1);
+                String[] action = gp.processInput(id, tokens[0], tmp);
+                if (Objects.equals(action[0], "ONE")) {
+                    bufferedWriter.write(action[1]);
+                    bufferedWriter.newLine();
+                    bufferedWriter.flush();
+                } else {
+                    broadcastMessage(action[1]);
+                }
             } catch (IOException e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);
                 break;
@@ -57,11 +67,9 @@ public class ClientHandler implements Runnable {
     public void broadcastMessage(String messageToSend) {
         for (ClientHandler clientHandler : clientHandlers) {
             try {
-                if (!clientHandler.clientUsername.equals(clientUsername)) {
-                    clientHandler.bufferedWriter.write(messageToSend);
-                    clientHandler.bufferedWriter.newLine();
-                    clientHandler.bufferedWriter.flush();
-                }
+                clientHandler.bufferedWriter.write(messageToSend);
+                clientHandler.bufferedWriter.newLine();
+                clientHandler.bufferedWriter.flush();
             } catch (IOException e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);
             }
@@ -88,66 +96,5 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public String help() throws IOException {
-        String help_message = """
-                ------------------------------------------------
-                IN MENU:
-                    /help - print all commands.
-                    /players - print number of players.
-                    /start - start poker game (min. 2 players).
-                IN GAME:          
-                    /hand - print all your cards.
-                    /call - call a bet.
-                    /raise - increase the opening bet.
-                    /fold - end participation in a hand.
-                ------------------------------------------------
-                """;
-        bufferedWriter.write(help_message);
-        bufferedWriter.flush();
-        return help_message;
-    }
-
-    public int numberOfPlayers() throws IOException {
-        int numberOfPlayers = clientHandlers.size();
-        bufferedWriter.write(Integer.toString(numberOfPlayers));
-        bufferedWriter.newLine();
-        bufferedWriter.flush();
-        return numberOfPlayers;
-    }
-
-    public String runCommand(String command) throws IOException {
-        switch (command) {
-            case "/help" -> {
-                help();
-                return "/help";
-            }
-            case "/players" -> {
-                numberOfPlayers();
-                return "/players";
-            }
-            case "/start" -> {
-                if (getNumberOfClients() < 2) {
-                    bufferedWriter.write("Too many clients to play. Wait for another player");
-                } else {
-                    game.deal();
-                    broadcastMessage(clientUsername + " started a game. Cards was dealt.");
-                    bufferedWriter.write("You started a game. Cards was dealt.");
-                    bufferedWriter.newLine();
-                }
-                bufferedWriter.flush();
-                return "/start";
-            }
-            case "/hand" -> {
-                for (Card card: game.getPlayers().get(id).getHand().getCards()) {
-                    bufferedWriter.write(card.toString());
-                    bufferedWriter.newLine();
-                    bufferedWriter.flush();
-                }
-                return "/hand";
-            }
-        }
-        return "Command not recognized. Enter /help to print all commands";
     }
 }
