@@ -225,10 +225,10 @@ public class GameTest {
         assertEquals(2, game.getCurrentPlayer());
         assertEquals(1, game.getCurrentRound());
         assertFalse(game.makeAMove(2, 1, game.getPlayers().get(2)));
-        assertEquals(0, game.getCurrentPlayer());
-        assertEquals(2, game.getCurrentRound());
+        assertEquals(2, game.getCurrentPlayer());
+        assertEquals(1, game.getCurrentRound());
         assertTrue(game.makeAMove(1, 1, game.getPlayers().get(2)));
-        assertEquals(1, game.getCurrentPlayer());
+        assertEquals(0, game.getCurrentPlayer());
         assertEquals(2, game.getCurrentRound());
     }
 

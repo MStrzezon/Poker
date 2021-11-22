@@ -99,8 +99,8 @@ public class Game {
             }
             case(2) -> {
                 player.raise(newBet);
-                nextPlayer();
                 if (newBet <= bet) return false;
+                nextPlayer();
                 bet = newBet;
                 addFunds(bet);
             }
