@@ -56,7 +56,7 @@ public class PlayerTest {
 
     @Test
     public void raise() {
-        player.raise();
+        player.raise(2);
         assertTrue(player.getIsInPlay());
     }
 

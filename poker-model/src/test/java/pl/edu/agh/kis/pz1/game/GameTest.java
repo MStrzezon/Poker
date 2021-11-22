@@ -42,15 +42,15 @@ public class GameTest {
 
     @Test
     public void getAllFunds() {
-        game.addPlayer();
-        game.addPlayer();
+        game.addPlayer(0);
+        game.addPlayer(1);
         assertEquals(10, game.getAllFunds());
     }
 
     @Test
     public void getCurrentPlayer() {
-        game.addPlayer();
-        game.addPlayer();
+        game.addPlayer(0);
+        game.addPlayer(1);
         assertEquals(0, game.getCurrentPlayer());
         game.nextPlayer();
         assertEquals(1, game.getCurrentPlayer());
@@ -60,7 +60,7 @@ public class GameTest {
 
     @Test
     public void getCurrentRound() {
-        game.addPlayer();
+        game.addPlayer(0);
         assertEquals(1, game.getCurrentRound());
         game.nextPlayer();
         assertEquals(2, game.getCurrentRound());
@@ -68,8 +68,8 @@ public class GameTest {
 
     @Test
     public void getPlayers() {
-        game.addPlayer();
-        game.addPlayer();
+        game.addPlayer(0);
+        game.addPlayer(1);
         assertNotNull(game.getPlayers());
         assertEquals(0, game.getPlayers().get(0).getId());
     }
@@ -81,8 +81,8 @@ public class GameTest {
 
     @Test
     public void addFunds() {
-        game.addPlayer();
-        game.addPlayer();
+        game.addPlayer(0);
+        game.addPlayer(1);
         game.addFunds(10);
         assertEquals(20, game.getAllFunds());
     }
@@ -95,21 +95,21 @@ public class GameTest {
 
     @Test
     public void addPlayer() throws NoPlacesException {
-        assertTrue(game.addPlayer());
+        assertTrue(game.addPlayer(0));
         assertEquals(5, game.getAllFunds());
-        assertTrue(game.addPlayer());
+        assertTrue(game.addPlayer(1));
         assertEquals(10, game.getAllFunds());
-        assertTrue(game.addPlayer());
+        assertTrue(game.addPlayer(2));
         assertEquals(15, game.getAllFunds());
-        assertTrue(game.addPlayer());
+        assertTrue(game.addPlayer(3));
         assertEquals(20, game.getAllFunds());
-        assertFalse(game.addPlayer());
+        assertFalse(game.addPlayer(4));
     }
 
     @Test
     public void deal2Players() {
         for(int i = 0; i <2; i++) {
-            game.addPlayer();
+            game.addPlayer(0);
         }
         game.deal();
         assertEquals(5, game.getPlayers().get(0).getHand().getCards().size());
@@ -120,7 +120,7 @@ public class GameTest {
     @Test
     public void deal3Players() {
         for(int i = 0; i <3; i++) {
-            game.addPlayer();
+            game.addPlayer(0);
         }
         game.deal();
         assertEquals(5, game.getPlayers().get(0).getHand().getCards().size());
@@ -135,7 +135,7 @@ public class GameTest {
     @Test
     public void deal4Players() {
         for(int i = 0; i <4; i++) {
-            game.addPlayer();
+            game.addPlayer(0);
         }
         game.deal();
         assertEquals(5, game.getPlayers().get(0).getHand().getCards().size());
@@ -152,19 +152,21 @@ public class GameTest {
 
     @Test
     public void nextPlayer() {
-        for (int i = 0; i < 4; i++) game.addPlayer();
+        for (int i = 0; i < 4; i++) game.addPlayer(0);
         assertEquals(game.getPlayers().get(1), game.nextPlayer());
         assertEquals(game.getPlayers().get(2), game.nextPlayer());
         assertEquals(game.getPlayers().get(3), game.nextPlayer());
         assertEquals(game.getPlayers().get(0), game.nextPlayer());
         assertEquals(2, game.getCurrentRound());
+        game.getPlayers().get(1).fold();
+        assertEquals(game.getPlayers().get(2), game.nextPlayer());
     }
 
     @Test
     public void draw() {
-        game.addPlayer();
-        game.addPlayer();
-        game.addPlayer();
+        game.addPlayer(0);
+        game.addPlayer(1);
+        game.addPlayer(2);
         game.deal();
         List<Card> c1 = new ArrayList<>(game.getPlayers().get(0).getHand().getCards());
         List<Card> c2 = new ArrayList<>();
@@ -177,8 +179,8 @@ public class GameTest {
 
     @Test
     public void isFinish() {
-        game.addPlayer();
-        game.addPlayer();
+        game.addPlayer(0);
+        game.addPlayer(1);
         game.nextPlayer();
         game.nextPlayer();
         assertFalse(game.isFinish());

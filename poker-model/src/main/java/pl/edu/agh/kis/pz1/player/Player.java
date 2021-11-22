@@ -27,8 +27,8 @@ public class Player {
     }
 
     /** it will be done */
-    public void raise() {
-        //do nothing
+    public int raise(int newWage) {
+        return newWage;
     }
 
     public void fold() {

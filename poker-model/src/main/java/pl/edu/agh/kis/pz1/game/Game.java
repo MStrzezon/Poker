@@ -45,16 +45,23 @@ public class Game {
 
     public List<Player> getPlayers() { return players; }
 
+    public Player getPlayer(int id) {
+        for (Player p: getPlayers()) {
+            if (p.getId() == id ) { return p; }
+        }
+        return null;
+    }
+
     public Deck getDeck() { return deck; }
 
     public void setBet(int x) { bet = x; }
 
     public void addFunds(int x) { allFunds += x; }
 
-    public boolean addPlayer() {
+    public boolean addPlayer(int playerId) {
         if (players.size() == 4) { return false; }
         else {
-            players.add(new Player(players.size()));
+            players.add(new Player(playerId));
             addFunds(ante);
             return true;
         }
@@ -70,11 +77,34 @@ public class Game {
     }
 
     public Player nextPlayer() {
-        if (currentPlayer == players.size()-1) {
-            currentPlayer = -1;
-            currentRound += 1;
+        Player nextPlayer;
+        while(true) {
+            if (currentPlayer == players.size()-1) {
+                currentPlayer = -1;
+                currentRound += 1;
+            }
+            nextPlayer = players.get(++currentPlayer);
+            if (nextPlayer.getIsInPlay()) {
+                return nextPlayer;
+            }
         }
-        return players.get(++currentPlayer);
+    }
+
+    public void makeAMove(int type, int newWage, Player player) {
+        switch (type) {
+            case(1) -> {
+                player.call();
+                addFunds(bet);
+            }
+            case(2) -> {
+                player.raise(newWage);
+                bet = newWage;
+                addFunds(bet);
+            }
+            case(3) -> {
+                player.fold();
+            }
+        }
     }
 
     public void draw(List<Card> cardsToDraw, Player player) {
