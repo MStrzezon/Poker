@@ -90,18 +90,18 @@ public class Game {
         }
     }
 
-    public boolean makeAMove(int type, int newBet, Player player) {
+    public boolean makeAMove(int type, int wage, Player player) {
         switch (type) {
             case(1) -> {
-                player.call();
+                player.call(wage);
                 addFunds(bet);
                 nextPlayer();
             }
             case(2) -> {
-                player.raise(newBet);
-                if (newBet <= bet) return false;
+                player.raise(wage);
+                if (wage <= bet) return false;
                 nextPlayer();
-                bet = newBet;
+                bet = wage;
                 addFunds(bet);
             }
             case(3) -> {

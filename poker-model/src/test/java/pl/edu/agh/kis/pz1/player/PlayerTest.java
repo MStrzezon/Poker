@@ -50,13 +50,15 @@ public class PlayerTest {
 
     @Test
     public void call() {
-        player.call();
+        player.call(10);
+        assertEquals(40, player.getFunds());
         assertTrue(player.getIsInPlay());
     }
 
     @Test
     public void raise() {
         player.raise(2);
+        assertEquals(48, player.getFunds());
         assertTrue(player.getIsInPlay());
     }
 

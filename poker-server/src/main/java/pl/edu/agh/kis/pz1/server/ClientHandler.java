@@ -45,11 +45,11 @@ public class ClientHandler implements Runnable {
             try {
                 messageFromClient = bufferedReader.readLine();
                 String[] tokens  = messageFromClient.split(" ");
-                List<Integer> tmp = new ArrayList<>();
+                List<Integer> parameters = new ArrayList<>();
                 if (tokens.length > 1) {
-                    for (int i = 1; i < tokens.length; i++) tmp.add(Integer.parseInt(tokens[i]));
-                } else tmp.add(-1);
-                String[] action = gp.processInput(id, tokens[0], tmp);
+                    for (int i = 1; i < tokens.length; i++) parameters.add(Integer.parseInt(tokens[i]));
+                }
+                String[] action = gp.processInput(id, tokens[0], parameters);
                 if (Objects.equals(action[0], "ONE")) {
                     bufferedWriter.write(action[1]);
                     bufferedWriter.newLine();
