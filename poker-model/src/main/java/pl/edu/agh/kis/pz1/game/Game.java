@@ -14,6 +14,7 @@ public class Game {
     private int bet;
     private int currentPlayer;
     private int currentRound;
+    private int currentDrawPlayer;
     private List<Player> players;
     private Deck deck;
 
@@ -25,6 +26,7 @@ public class Game {
         this.bet = x;
         this.currentPlayer = 0;
         this.currentRound = 1;
+        currentDrawPlayer = 0;
         this.players = new ArrayList<>();
         this.deck = new Deck();
     }
@@ -42,6 +44,8 @@ public class Game {
     public int getCurrentPlayer() { return currentPlayer; }
 
     public int getCurrentRound() { return currentRound; }
+
+    public int getCurrentDrawPlayer() { return currentDrawPlayer; }
 
     public List<Player> getPlayers() { return players; }
 
@@ -88,6 +92,11 @@ public class Game {
                 return nextPlayer;
             }
         }
+    }
+
+    public boolean nextDrawPlayer() {
+        ++currentDrawPlayer;
+        return currentDrawPlayer < players.size();
     }
 
     public boolean makeAMove(int type, int wage, Player player) {

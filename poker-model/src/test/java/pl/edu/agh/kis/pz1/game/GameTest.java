@@ -163,6 +163,15 @@ public class GameTest {
     }
 
     @Test
+    public void nextDrawPlayer() {
+        for (int i = 0; i < 3; i++) game.addPlayer(0);
+        assertEquals(0, game.getCurrentDrawPlayer());
+        if (game.nextDrawPlayer()) assertEquals(1, game.getCurrentDrawPlayer());
+        if (game.nextDrawPlayer()) assertEquals(2, game.getCurrentDrawPlayer());
+        if (game.nextDrawPlayer()) assertEquals(3, game.getCurrentDrawPlayer());
+    }
+
+    @Test
     public void draw() {
         game.addPlayer(0);
         game.addPlayer(1);
