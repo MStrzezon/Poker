@@ -103,7 +103,7 @@ public class Game {
     public boolean makeAMove(int type, int wage, Player player) {
         switch (type) {
             case(1) -> {
-                player.call(wage);
+                player.call(bet);
                 addFunds(bet);
                 nextPlayer();
             }
