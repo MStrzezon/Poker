@@ -18,7 +18,6 @@ public class ClientHandler implements Runnable {
     private int id;
     private static int counter = 0;
 
-    public int getNumberOfClients() { return clientHandlers.size(); }
 
     public ClientHandler(Socket socket) throws IOException {
         try {

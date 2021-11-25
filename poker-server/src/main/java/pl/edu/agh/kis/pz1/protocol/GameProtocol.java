@@ -3,6 +3,7 @@ package pl.edu.agh.kis.pz1.protocol;
 import pl.edu.agh.kis.pz1.cards.Card;
 import pl.edu.agh.kis.pz1.game.Game;
 import pl.edu.agh.kis.pz1.player.Player;
+import pl.edu.agh.kis.pz1.server.Server;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -61,10 +62,11 @@ public class GameProtocol {
             case "/join" -> {
                 if (state == GameState.NOT_CREATED) return new String[]{"ONE",
                         "The game has not been created yet! Enter /create {ante} to create a game! Max ante: 10"};
+                if (state==GameState.CREATED && game.getPlayers().size() == Server.maxPlayers) {
+                    return new String[]{"ONE", "Too many participants. Max number of players: " + Integer.toString(Server.maxPlayers)};
+                }
                 if (state == GameState.CREATED && !game.isInGame(userId) && game.addPlayer(userId)) {
                     return new String[]{"ONE", "You joined the game, your number in game: " + (game.getPlayers().size() - 1)};
-                } else if (state == GameState.CREATED && !game.isInGame(userId) && !game.addPlayer(userId)) {
-                    return new String[]{"ONE", "Too many participants. You cannot join to this game"};
                 } else if (state == GameState.CREATED && game.isInGame(userId)) {
                     return new String[]{"ONE", "You are already join to the game"};
                 }
@@ -152,7 +154,7 @@ public class GameProtocol {
                     }
                 }
                 if (state == GameState.DRAW) return new String[]{"ONE", "Now is time to draw. You cannot call!"};
-                if (state == GameState.END) return new String[]{"ONE", "Game is over. You cannot call!"};
+                if (state == GameState.END) return new String[]{"ONE", "Game is over. Enter /results to see results."};
             }
             case "/raise" -> {
                 if (state==GameState.NOT_CREATED || state == GameState.CREATED)
@@ -183,7 +185,7 @@ public class GameProtocol {
                     }
                 }
                 if (state == GameState.DRAW) return new String[]{"ONE", "Now is time to draw. You cannot raise!"};
-                if (state == GameState.END) return new String[]{"ONE", "Game is over. You cannot raise!"};
+                if (state == GameState.END) return new String[]{"ONE", "Game is over. Enter /results to see results."};
             }
             case "/fold" -> {
                 if (state == GameState.NOT_CREATED || state == GameState.CREATED)
