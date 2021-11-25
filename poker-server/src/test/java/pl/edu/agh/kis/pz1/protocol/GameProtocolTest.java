@@ -220,10 +220,9 @@ public class GameProtocolTest {
         gp.processInput(1, "/call", parameters);
         assertEquals("Not your turn!", gp.processInput(2, "/draw", parameters)[1]);
         parameters.clear();
-        assertEquals("You should enter cards, which you want to draw!", gp.processInput(0, "/draw", parameters)[1]);
+        assertEquals("Now player 1", gp.processInput(0, "/draw", parameters)[1]);
         parameters.add(1);
         parameters.add(3);
-        assertEquals("Now player 1", gp.processInput(0, "/draw", parameters)[1]);
         parameters.add(1);
         parameters.add(3);
         parameters.add(1);
@@ -239,4 +238,40 @@ public class GameProtocolTest {
         //TODO- to end game.
     }
 
+    @Test
+    public void resultProcess() {
+        parameters.add(5);
+        gp.processInput(0, "/create", parameters);
+        gp.processInput(0, "/join", parameters);
+        gp.processInput(1, "/join", parameters);
+        gp.processInput(0, "/start", parameters);
+        gp.processInput(0, "/call", parameters);
+        gp.processInput(1, "/call", parameters);
+        parameters.clear();
+        gp.processInput(0, "/draw", parameters);
+        gp.processInput(1, "/draw", parameters);
+        assertEquals("Game is not over yet", gp.processInput(1, "/result", parameters)[1]);
+        gp.processInput(0, "/call", parameters);
+        gp.processInput(1, "/call", parameters);
+        assertEquals(3, gp.processInput(1, "/result", parameters)[1].lines().count());
+    }
+
+    @Test
+    public void endProcess() {
+        parameters.add(5);
+        assertEquals("You can end game after all rounds!", gp.processInput(1, "/end", parameters)[1]);
+        gp.processInput(0, "/create", parameters);
+        gp.processInput(0, "/join", parameters);
+        gp.processInput(1, "/join", parameters);
+        gp.processInput(0, "/start", parameters);
+        gp.processInput(0, "/call", parameters);
+        gp.processInput(1, "/call", parameters);
+        parameters.clear();
+        gp.processInput(0, "/draw", parameters);
+        gp.processInput(1, "/draw", parameters);
+        gp.processInput(0, "/call", parameters);
+        gp.processInput(1, "/call", parameters);
+        assertEquals("Game is over. To create new enter /create.", gp.processInput(1, "/end", parameters)[1]);
+        assertEquals("You must play the game to be able to call!", gp.processInput(1, "/call", parameters)[1]);
+    }
 }

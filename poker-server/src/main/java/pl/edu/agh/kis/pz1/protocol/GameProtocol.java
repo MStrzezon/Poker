@@ -2,6 +2,7 @@ package pl.edu.agh.kis.pz1.protocol;
 
 import pl.edu.agh.kis.pz1.cards.Card;
 import pl.edu.agh.kis.pz1.game.Game;
+import pl.edu.agh.kis.pz1.player.Player;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -133,7 +134,7 @@ public class GameProtocol {
                     if (game.getCurrentPlayer() == playerIndex) {
                         int previousPlayer = game.getCurrentPlayer();
                         int previousRound = game.getCurrentRound();
-                        if (game.makeAMove(1, parameters.get(0), game.getPlayers().get(playerIndex))) {
+                        if (game.makeAMove(1, 0, game.getPlayers().get(playerIndex))) {
                             if (game.getCurrentRound() == previousRound+1 && previousRound==1) {
                                 state = GameState.DRAW;
                                 return new String[]{"MORE", "Player " + Integer.toString(previousPlayer) + " called. Now time to draw!\nAll funds: "
@@ -220,7 +221,11 @@ public class GameProtocol {
                     int playerIndex = game.getPlayers().indexOf(game.getPlayer(userId));
                     if (game.getCurrentDrawPlayer() == playerIndex) {
                         if (parameters.size()==0) {
-                            return new String[]{"MORE", "You should enter cards, which you want to draw!"};
+                            if (!game.nextDrawPlayer()) {
+                                state=GameState.ROUND;
+                                return new String[]{"MORE", "End of draw. Now player " + game.getCurrentPlayer()};
+                            }
+                            return new String[]{"MORE", "Now player "+game.getCurrentDrawPlayer()};
                         } else if (parameters.size() <= 5) {
                             List<Card> cards = new ArrayList<>();
                             Set<Integer> set = new HashSet<Integer>(parameters);
@@ -245,7 +250,23 @@ public class GameProtocol {
             case "/result" -> {
                 if (state==GameState.NOT_CREATED || state==GameState.CREATED) return new String[]{"ONE", "You should play the game to see results!"};
                 if (state==GameState.ROUND || state==GameState.DRAW) return new String[]{"ONE", "Game is not over yet"};
-                if (state==GameState.END) return new String[]{"ONE", "Winner: "};
+                if (state==GameState.END) {
+                    StringBuilder result = new StringBuilder();
+                    result.append("RESULTS:\n");
+                    int playerCounter = 1;
+                    for (Player player : game.result()) {
+                        result.append(playerCounter++).append(") Player ").append(player.getId()).append("\n");
+                    }
+                    return new String[]{"ONE", result.toString()};
+                }
+            }
+            case "/end" -> {
+                if (state==GameState.NOT_CREATED || state==GameState.CREATED || state==GameState.ROUND || state==GameState.DRAW) return new String[]{"ONE", "You can end game after all rounds!"};
+                if (state==GameState.END) {
+                    game = null;
+                    state=GameState.NOT_CREATED;
+                    return new String[]{"MORE", "Game is over. To create new enter /create."};
+                }
             }
         }
         return new String[]{"ONE", "Command not recognized. Enter /help to print all commands"};
@@ -272,6 +293,7 @@ public class GameProtocol {
                     /draw {cards numbers}- draw cards. For example: /draw 123 <-- it means draw cards number 1, 2, 3.
                                            If no card is given, it means that the participant does not want to draw.
                     /result - print result of the game.
+                    /end - end game in order to start new.
                 ------------------------------------------------------------------------------------------------------""";
         return help_message;
     }
