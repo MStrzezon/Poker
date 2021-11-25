@@ -52,7 +52,7 @@ public class GameProtocolTest {
         gp.processInput(1, "/call", parameters);
         assertEquals("It's: 2 round. Now playing player nr: 2", gp.processInput(2, "/state", parameters)[1]);
         gp.processInput(2, "/call", parameters);
-        assertEquals("Game is finished. Enter /result to show results.", gp.processInput(2, "/state", parameters)[1]);
+        assertEquals("Game is finished. Enter /result to show result.", gp.processInput(2, "/state", parameters)[1]);
     }
 
     @Test
@@ -167,7 +167,7 @@ public class GameProtocolTest {
         gp.processInput(0, "/call", parameters);
         gp.processInput(1, "/call", parameters);
         gp.processInput(2, "/call", parameters);
-        assertEquals("Game is over. Enter /results to see results.", gp.processInput(2, "/call", parameters)[1]);
+        assertEquals("Game is over. Enter /result to see result.", gp.processInput(2, "/call", parameters)[1]);
     }
 
     @Test
@@ -201,7 +201,7 @@ public class GameProtocolTest {
         gp.processInput(0, "/call", parameters);
         gp.processInput(1, "/call", parameters);
         gp.processInput(2, "/call", parameters);
-        assertEquals("Game is over. Enter /results to see results.", gp.processInput(2, "/raise", parameters)[1]);
+        assertEquals("Game is over. Enter /result to see result.", gp.processInput(2, "/raise", parameters)[1]);
     }
 
     @Test

@@ -43,7 +43,7 @@ public class GameProtocol {
                     return new String[]{"ONE", "It's a draw time!"};
                 }
                 if (state == GameState.END) {
-                    return new String[]{"ONE", "Game is finished. Enter /result to show results."};
+                    return new String[]{"ONE", "Game is finished. Enter /result to show result."};
                 }
             }
             case "/create" -> {
@@ -117,9 +117,9 @@ public class GameProtocol {
                 if (state == GameState.ROUND || state == GameState.DRAW) {
                     if (game.isInGame(userId)) {
                         StringBuilder hand = new StringBuilder();
-                        int card_counter = 1;
+                        int card_counter = 0;
                         for (Card card : game.getPlayer(userId).getHand().getCards()) {
-                            hand.append(Integer.toString(card_counter)).append(": ").append(card.toString()).append("\n");
+                            hand.append(Integer.toString(card_counter++)).append(": ").append(card.toString()).append("\n");
                         }
                         return new String[]{"ONE", hand.toString()};
                     }
@@ -144,7 +144,7 @@ public class GameProtocol {
                                         + ".    Current bet: " + Integer.toString(game.getBet())};
                             } else if (game.getCurrentRound() == previousRound+1 && previousRound==2) {
                                 state=GameState.END;
-                                return new String[]{"MORE", "Game is over. Enter /results to see results."};
+                                return new String[]{"MORE", "Game is over. Enter /result to see result."};
                             }
                             return new String[]{"MORE", "Player " + Integer.toString(previousPlayer) + " called. Now player " + Integer.toString(game.getCurrentPlayer()) + "\nAll funds: " + Integer.toString(game.getAllFunds())
                                     + ".    Current bet: " + Integer.toString(game.getBet())};
@@ -154,7 +154,7 @@ public class GameProtocol {
                     }
                 }
                 if (state == GameState.DRAW) return new String[]{"ONE", "Now is time to draw. You cannot call!"};
-                if (state == GameState.END) return new String[]{"ONE", "Game is over. Enter /results to see results."};
+                if (state == GameState.END) return new String[]{"ONE", "Game is over. Enter /result to see result."};
             }
             case "/raise" -> {
                 if (state==GameState.NOT_CREATED || state == GameState.CREATED)
@@ -173,7 +173,7 @@ public class GameProtocol {
                                         + ".    Current bet: " + Integer.toString(game.getBet())};
                             } else if (game.getCurrentRound() == previousRound+1 && previousRound==2) {
                                 state=GameState.END;
-                                return new String[]{"MORE", "Game is over. Enter /results to see results."};
+                                return new String[]{"MORE", "Game is over. Enter /result to see result."};
                             }
                             return new String[]{"MORE", "Player " + Integer.toString(previousPlayer) + " raised. Now player "+ Integer.toString(game.getCurrentPlayer()) + "\nAll funds: "
                                     + Integer.toString(game.getAllFunds())
@@ -185,7 +185,7 @@ public class GameProtocol {
                     }
                 }
                 if (state == GameState.DRAW) return new String[]{"ONE", "Now is time to draw. You cannot raise!"};
-                if (state == GameState.END) return new String[]{"ONE", "Game is over. Enter /results to see results."};
+                if (state == GameState.END) return new String[]{"ONE", "Game is over. Enter /result to see result."};
             }
             case "/fold" -> {
                 if (state == GameState.NOT_CREATED || state == GameState.CREATED)
@@ -204,7 +204,7 @@ public class GameProtocol {
                         }
                         else if (game.getCurrentRound() == previousRound+1 && previousRound==2) {
                             state=GameState.END;
-                            return new String[]{"MORE", "Game is over. Enter /results to see results."};
+                            return new String[]{"MORE", "Game is over. Enter /result to see result."};
                         }
                         return new String[]{"MORE", "Player " + Integer.toString(previousPlayer) + " folded. Now player " +
                                 Integer.toString(game.getCurrentPlayer()) + "\nAll funds: " + Integer.toString(game.getAllFunds())
@@ -250,7 +250,7 @@ public class GameProtocol {
                 if (state == GameState.END) return new String[]{"ONE", "Game is over. You cannot draw!"};
             }
             case "/result" -> {
-                if (state==GameState.NOT_CREATED || state==GameState.CREATED) return new String[]{"ONE", "You should play the game to see results!"};
+                if (state==GameState.NOT_CREATED || state==GameState.CREATED) return new String[]{"ONE", "You should play the game to see result!"};
                 if (state==GameState.ROUND || state==GameState.DRAW) return new String[]{"ONE", "Game is not over yet"};
                 if (state==GameState.END) {
                     StringBuilder result = new StringBuilder();
