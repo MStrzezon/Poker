@@ -121,6 +121,39 @@ public class Hand {
         else return Value.HIGHT_CARD;
     }
 
+    public int compareTo(List<Card> anotherHand) {
+        switch (getValue()) {
+            case STRAIGHT_FLUSH -> {
+                return Tie.straightFlush(cards, anotherHand)? 1: 0;
+            }
+            case FOUR_OF_KIND -> {
+                return Tie.fourOfAKind(cards, anotherHand)? 1: 0;
+            }
+            case FULL_HOUSE -> {
+                return Tie.fullHouse(cards, anotherHand)? 1: 0;
+            }
+            case FLUSH -> {
+                return Tie.flush(cards, anotherHand)? 1: 0;
+            }
+            case STREIGH -> {
+                return Tie.streigh(cards, anotherHand)? 1: 0;
+            }
+            case THREE_OF_A_KIND -> {
+                return Tie.freeOfAKind(cards, anotherHand)? 1: 0;
+            }
+            case TWO_PAIRS -> {
+                return Tie.twoPairs(cards, anotherHand)? 1: 0;
+            }
+            case ONE_PAIR -> {
+                return Tie.onePair(cards, anotherHand)? 1: 0;
+            }
+            case HIGHT_CARD -> {
+                return Tie.hightCard(cards, anotherHand)? 1: 0;
+            }
+        }
+        return 1;
+    }
+
     public Card hightCard() {
         return cards.get(0);
     }

@@ -1,13 +1,8 @@
 package pl.edu.agh.kis.pz1.player;
 
 import pl.edu.agh.kis.pz1.cards.Card;
-import pl.edu.agh.kis.pz1.player.Hand;
-import pl.edu.agh.kis.pz1.player.Player;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Tie {
     public static boolean straightFlush(List<Card> a, List<Card> b) {

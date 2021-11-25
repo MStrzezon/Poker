@@ -203,26 +203,6 @@ public class GameTest {
     }
 
     @Test
-    public void winner() {
-        Player winner = new Player(1);
-        Player looser = new Player(2);
-        winner.getHand().addCard(new Card(Card.Rank.ACE, Card.Suit.SPADES));
-        winner.getHand().addCard(new Card(Card.Rank.KING, Card.Suit.SPADES));
-        winner.getHand().addCard(new Card(Card.Rank.QUEEN, Card.Suit.SPADES));
-        winner.getHand().addCard(new Card(Card.Rank.JACK, Card.Suit.SPADES));
-        winner.getHand().addCard(new Card(Card.Rank.TEN, Card.Suit.SPADES));
-        looser.getHand().addCard(new Card(Card.Rank.ACE, Card.Suit.DIAMONDS));
-        looser.getHand().addCard(new Card(Card.Rank.KING, Card.Suit.DIAMONDS));
-        looser.getHand().addCard(new Card(Card.Rank.ACE, Card.Suit.CLUBS));
-        looser.getHand().addCard(new Card(Card.Rank.KING, Card.Suit.CLUBS));
-        looser.getHand().addCard(new Card(Card.Rank.ACE, Card.Suit.HEARTS));
-        game.getPlayers().add(winner);
-        game.getPlayers().add(looser);
-        assertEquals(winner, game.winner());
-    }
-
-
-    @Test
     public void makeAMove() {
         game.addPlayer(0);
         game.addPlayer(1);
@@ -247,5 +227,16 @@ public class GameTest {
         assertFalse(game.isInGame(1));
         game.addPlayer(1);
         assertTrue(game.isInGame(1));
+    }
+
+    @Test
+    public void result() {
+        game.addPlayer(0);
+        game.addPlayer(1);
+        game.addPlayer(2);
+        game.deal();
+        List<Player> result = game.result();
+        assertTrue(result.get(0).getHand().getValue().ordinal() >= result.get(1).getHand().getValue().ordinal());
+        assertTrue(result.get(1).getHand().getValue().ordinal() >= result.get(2).getHand().getValue().ordinal());
     }
 }

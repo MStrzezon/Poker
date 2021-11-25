@@ -5,6 +5,7 @@ import pl.edu.agh.kis.pz1.cards.Deck;
 import pl.edu.agh.kis.pz1.player.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Game {
@@ -144,21 +145,16 @@ public class Game {
         return currentPlayer == 0 && currentRound == 3;
     }
 
-    public Player winner() {
-        Player winner;
-        List<Player> idRename = new ArrayList<>();
-        int value = -1;
-        for (Player p : players) {
-            if (p.getHand().getValue().ordinal() > value) {
-                idRename.clear();
-                value = p.getHand().getValue().ordinal();
-                idRename.add(p);
+    public List<Player> result() {
+        List<Player> result = new ArrayList<>(players);
+        result.sort((h1, h2) -> {
+            if (h1.getHand().getValue().ordinal()==h2.getHand().getValue().ordinal()) {
+                return h2.getHand().compareTo(h1.getHand().getCards());
+            } else {
+                return Integer.compare(h2.getHand().getValue().ordinal(), h1.getHand().getValue().ordinal());
             }
-            else if (p.getHand().getValue().ordinal() == value) {
-                idRename.add(p);
-            }
-        }
-        return idRename.get(0);
+        });
+        return result;
     }
 
 }
