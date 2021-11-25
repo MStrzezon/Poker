@@ -245,7 +245,7 @@ public class GameProtocol {
             case "/result" -> {
                 if (state==GameState.NOT_CREATED || state==GameState.CREATED) return new String[]{"ONE", "You should play the game to see results!"};
                 if (state==GameState.ROUND || state==GameState.DRAW) return new String[]{"ONE", "Game is not over yet"};
-                if (state==GameState.END) return new String[]{"ONE", "Winner: "+game.winner().getId()};
+                if (state==GameState.END) return new String[]{"ONE", "Winner: "};
             }
         }
         return new String[]{"ONE", "Command not recognized. Enter /help to print all commands"};
