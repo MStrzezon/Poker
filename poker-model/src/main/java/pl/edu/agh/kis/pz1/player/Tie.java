@@ -5,6 +5,10 @@ import pl.edu.agh.kis.pz1.cards.Card;
 import java.util.List;
 
 public class Tie {
+    private Tie() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static boolean straightFlush(List<Card> a, List<Card> b) {
         return a.get(0).rank().ordinal() > b.get(0).rank().ordinal();
     }
@@ -70,7 +74,7 @@ public class Tie {
             aSmaller = Math.min(a.get(1).rank().ordinal(), a.get(3).rank().ordinal());
             aLast = a.get(0).rank().ordinal();
         }
-        if (a.get(1).rank().ordinal()!=a.get(2).rank().ordinal()) {
+        else if (a.get(1).rank().ordinal()!=a.get(2).rank().ordinal()) {
             aBigger = Math.max(a.get(0).rank().ordinal(), a.get(4).rank().ordinal());
             aSmaller = Math.min(a.get(0).rank().ordinal(), a.get(4).rank().ordinal());
             aLast = a.get(2).rank().ordinal();
@@ -87,7 +91,7 @@ public class Tie {
             bSmaller = Math.min(b.get(1).rank().ordinal(), b.get(3).rank().ordinal());
             bLast = b.get(0).rank().ordinal();
         }
-        if (b.get(1).rank().ordinal()!=b.get(2).rank().ordinal()) {
+        else if (b.get(1).rank().ordinal()!=b.get(2).rank().ordinal()) {
             bBigger = Math.max(b.get(0).rank().ordinal(), b.get(4).rank().ordinal());
             bSmaller = Math.min(b.get(0).rank().ordinal(), b.get(4).rank().ordinal());
             bLast = b.get(2).rank().ordinal();
@@ -104,15 +108,39 @@ public class Tie {
 
     public static boolean onePair(List<Card> a, List<Card> b) {
         int aPair = 0, aBest = 0;
-        if (a.get(0).rank().ordinal()==a.get(1).rank().ordinal()) aPair = a.get(0).rank().ordinal(); aBest=a.get(2).rank().ordinal();
-        if (a.get(1).rank().ordinal()==a.get(2).rank().ordinal()) aPair = a.get(1).rank().ordinal(); aBest=a.get(0).rank().ordinal();
-        if (a.get(2).rank().ordinal()==a.get(3).rank().ordinal()) aPair = a.get(2).rank().ordinal(); aBest=a.get(0).rank().ordinal();
-        if (a.get(3).rank().ordinal()==a.get(4).rank().ordinal()) aPair = a.get(3).rank().ordinal(); aBest=a.get(0).rank().ordinal();
+        if (a.get(0).rank().ordinal()==a.get(1).rank().ordinal()) {
+            aPair = a.get(0).rank().ordinal();
+            aBest = a.get(2).rank().ordinal();
+        }
+        else if (a.get(1).rank().ordinal()==a.get(2).rank().ordinal()) {
+            aPair = a.get(1).rank().ordinal();
+            aBest = a.get(0).rank().ordinal();
+        }
+        else if (a.get(2).rank().ordinal()==a.get(3).rank().ordinal()) {
+            aPair = a.get(2).rank().ordinal();
+            aBest = a.get(0).rank().ordinal();
+        }
+        else if (a.get(3).rank().ordinal()==a.get(4).rank().ordinal()) {
+            aPair = a.get(3).rank().ordinal();
+            aBest = a.get(0).rank().ordinal();
+        }
         int bPair = 0, bBest = 0;
-        if (b.get(0).rank().ordinal()==b.get(1).rank().ordinal()) bPair = b.get(0).rank().ordinal(); bBest=a.get(2).rank().ordinal();
-        if (b.get(1).rank().ordinal()==b.get(2).rank().ordinal()) bPair = b.get(1).rank().ordinal(); bBest=b.get(0).rank().ordinal();
-        if (b.get(2).rank().ordinal()==b.get(3).rank().ordinal()) bPair = b.get(2).rank().ordinal(); bBest=b.get(0).rank().ordinal();
-        if (b.get(3).rank().ordinal()==b.get(4).rank().ordinal()) bPair = b.get(3).rank().ordinal(); bBest=b.get(0).rank().ordinal();
+        if (b.get(0).rank().ordinal()==b.get(1).rank().ordinal()) {
+            bPair = b.get(0).rank().ordinal();
+            bBest = a.get(2).rank().ordinal();
+        }
+        if (b.get(1).rank().ordinal()==b.get(2).rank().ordinal()) {
+            bPair = b.get(1).rank().ordinal();
+            bBest = b.get(0).rank().ordinal();
+        }
+        if (b.get(2).rank().ordinal()==b.get(3).rank().ordinal()) {
+            bPair = b.get(2).rank().ordinal();
+            bBest = b.get(0).rank().ordinal();
+        }
+        if (b.get(3).rank().ordinal()==b.get(4).rank().ordinal()) {
+            bPair = b.get(3).rank().ordinal();
+            bBest = b.get(0).rank().ordinal();
+        }
         if (aPair==bPair) return aBest > bBest;
         return aPair > bPair;
     }

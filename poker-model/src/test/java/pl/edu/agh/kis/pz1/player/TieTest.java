@@ -164,6 +164,20 @@ public class TieTest {
         b.add(new Card(Card.Rank.FOUR, Card.Suit.SPADES));
         assertTrue(Tie.twoPairs(a, b));
         assertFalse(Tie.twoPairs(b, a));
+        a.clear();
+        b.clear();
+        a.add(new Card(Card.Rank.KING, Card.Suit.HEARTS));
+        a.add(new Card(Card.Rank.QUEEN, Card.Suit.DIAMONDS));
+        a.add(new Card(Card.Rank.QUEEN, Card.Suit.SPADES));
+        a.add(new Card(Card.Rank.EIGHT, Card.Suit.HEARTS));
+        a.add(new Card(Card.Rank.EIGHT, Card.Suit.SPADES));
+        b.add(new Card(Card.Rank.KING, Card.Suit.CLUBS));
+        b.add(new Card(Card.Rank.KING, Card.Suit.SPADES));
+        b.add(new Card(Card.Rank.EIGHT, Card.Suit.CLUBS));
+        b.add(new Card(Card.Rank.EIGHT, Card.Suit.DIAMONDS));
+        b.add(new Card(Card.Rank.FOUR, Card.Suit.SPADES));
+        assertFalse(Tie.twoPairs(a, b));
+        assertTrue(Tie.twoPairs(b, a));
     }
 
     @Test

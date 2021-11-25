@@ -32,7 +32,6 @@
 
   <dependencyManagement>
     <dependencies>
-
       <dependency>
         <groupId>pl.edu.agh.kis.pz1</groupId>
         <artifactId>poker-client</artifactId>

@@ -52,6 +52,7 @@ public class PlayerTest {
     public void call() {
         player.call(10);
         assertEquals(40, player.getFunds());
+        assertFalse(player.call(50));
         assertTrue(player.getIsInPlay());
     }
 
@@ -59,6 +60,7 @@ public class PlayerTest {
     public void raise() {
         player.raise(2);
         assertEquals(48, player.getFunds());
+        assertFalse(player.raise(50));
         assertTrue(player.getIsInPlay());
     }
 

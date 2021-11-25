@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class ClientHandler implements Runnable {
     public static GameProtocol gp = new GameProtocol();
@@ -17,6 +18,7 @@ public class ClientHandler implements Runnable {
     private String clientUsername;
     private int id;
     private static int counter = 0;
+    private static final Logger logger = Logger.getLogger( ClientHandler.class.getName() );
 
 
     public ClientHandler(Socket socket) throws IOException {
@@ -27,9 +29,8 @@ public class ClientHandler implements Runnable {
             this.clientUsername = bufferedReader.readLine();
             id = counter++;
             clientHandlers.add(this);
-            broadcastMessage("SERVER: " + clientUsername + " has entered a game");
-            bufferedWriter.write("Welcome " + clientUsername + ". A number of participants: " + clientHandlers.size() +
-                    "\nEnter /help to see all commands.");
+            bufferedWriter.write("\nWelcome " + clientUsername + ". A number of participants: " + clientHandlers.size() +
+                    "\nEnter /help to see all commands.\n");
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } catch (IOException e) {
@@ -93,7 +94,7 @@ public class ClientHandler implements Runnable {
                 socket.close();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         }
     }
 }

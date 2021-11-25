@@ -208,6 +208,9 @@ public class GameTest {
         game.addPlayer(1);
         game.addPlayer(2);
         assertTrue(game.makeAMove(1, 1, game.getPlayers().get(0)));
+        assertEquals(20, game.getAllFunds());
+        assertEquals(5, game.getBet());
+        assertFalse(game.makeAMove(2, 51, game.getPlayers().get(1)));
         assertEquals(1, game.getCurrentPlayer());
         assertEquals(1, game.getCurrentRound());
         assertTrue(game.makeAMove(1, 1, game.getPlayers().get(1)));

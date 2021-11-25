@@ -121,37 +121,43 @@ public class Hand {
         else return Value.HIGHT_CARD;
     }
 
+    private int boolToInt(boolean a) {
+        return a? 1:0;
+    }
+
     public int compareTo(List<Card> anotherHand) {
         switch (getValue()) {
             case STRAIGHT_FLUSH -> {
-                return Tie.straightFlush(cards, anotherHand)? 1: 0;
+                return boolToInt(Tie.straightFlush(cards, anotherHand));
             }
             case FOUR_OF_KIND -> {
-                return Tie.fourOfAKind(cards, anotherHand)? 1: 0;
+                return boolToInt(Tie.fourOfAKind(cards, anotherHand));
             }
             case FULL_HOUSE -> {
-                return Tie.fullHouse(cards, anotherHand)? 1: 0;
+                return boolToInt(Tie.fullHouse(cards, anotherHand));
             }
             case FLUSH -> {
-                return Tie.flush(cards, anotherHand)? 1: 0;
+                return boolToInt(Tie.flush(cards, anotherHand));
             }
             case STREIGH -> {
-                return Tie.streigh(cards, anotherHand)? 1: 0;
+                return boolToInt(Tie.streigh(cards, anotherHand));
             }
             case THREE_OF_A_KIND -> {
-                return Tie.freeOfAKind(cards, anotherHand)? 1: 0;
+                return boolToInt(Tie.freeOfAKind(cards, anotherHand));
             }
             case TWO_PAIRS -> {
-                return Tie.twoPairs(cards, anotherHand)? 1: 0;
+                return boolToInt(Tie.twoPairs(cards, anotherHand));
             }
             case ONE_PAIR -> {
-                return Tie.onePair(cards, anotherHand)? 1: 0;
+                return boolToInt(Tie.onePair(cards, anotherHand));
             }
             case HIGHT_CARD -> {
-                return Tie.hightCard(cards, anotherHand)? 1: 0;
+                return boolToInt(Tie.hightCard(cards, anotherHand));
+            }
+            default -> {
+                return 1;
             }
         }
-        return 1;
     }
 
     public Card hightCard() {

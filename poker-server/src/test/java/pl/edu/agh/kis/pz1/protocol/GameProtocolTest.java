@@ -123,6 +123,28 @@ public class GameProtocolTest {
         assertEquals("Your game id: 1", gp.processInput(1, "/id", parameters)[1]);
         assertEquals("You should join to the game to see your id in game!", gp.processInput(2, "/id", parameters)[1]);
     }
+    @Test
+    public void moneyProcess() {
+        assertEquals("The game has not been created yet! Enter /create {ante} to create a game! Max ante: 10", gp.processInput(0, "/money", parameters)[1]);
+        parameters.add(10);
+        gp.processInput(1, "/create", parameters);
+        gp.processInput(0, "/join", parameters);
+        gp.processInput(1, "/join", parameters);
+        gp.processInput(1, "/start", parameters);
+        assertEquals("Money: 50", gp.processInput(0, "/money", parameters)[1]);
+        assertEquals("Money: 50", gp.processInput(1, "/money", parameters)[1]);
+        assertEquals("You should join to the game to see your money in game!", gp.processInput(2, "/money", parameters)[1]);
+        gp.processInput(0, "/call", parameters);
+        assertEquals("Money: 40", gp.processInput(0, "/money", parameters)[1]);
+        gp.processInput(1, "/call", parameters);
+        assertEquals("Money: 40", gp.processInput(1, "/money", parameters)[1]);
+        gp.processInput(0, "/draw", parameters);
+        gp.processInput(1, "/draw", parameters);
+        gp.processInput(0, "/call", parameters);
+        assertEquals("Money: 40", gp.processInput(0, "/money", parameters)[1]);
+        gp.processInput(1, "/call", parameters);
+        assertEquals("Money: 40", gp.processInput(1, "/money", parameters)[1]);
+    }
 
     @Test
     public void handProcess() {

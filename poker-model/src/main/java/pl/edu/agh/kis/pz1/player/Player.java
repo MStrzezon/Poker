@@ -26,13 +26,21 @@ public class Player {
     public Hand getHand() { return hand; }
 
     /** it will be done */
-    public void call(int wage) {
-        funds -= wage;
+    public boolean call(int wage) {
+        if (funds - wage > 0) {
+            funds -= wage;
+            return true;
+        }
+        else return false;
     }
 
     /** it will be done */
-    public void raise(int newWage) {
-        funds -= newWage;
+    public boolean raise(int newWage) {
+        if (funds - newWage > 0) {
+            funds -= newWage;
+            return true;
+        }
+        else return false;
     }
 
     public void fold() {
