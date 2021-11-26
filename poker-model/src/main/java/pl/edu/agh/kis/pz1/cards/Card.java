@@ -9,6 +9,8 @@ import java.util.Objects;
  *     <li>Rank</li>
  *     <li>Suit</li>
  * </ul>
+ *
+ * @author Michal Strzezon
  */
 public class Card {
     /**
