@@ -10,7 +10,7 @@ import java.util.Objects;
  *     <li>Suit</li>
  * </ul>
  *
- * @author Michal Strzezon
+ * @author Michał Strzeżoń
  */
 public class Card {
     /**
