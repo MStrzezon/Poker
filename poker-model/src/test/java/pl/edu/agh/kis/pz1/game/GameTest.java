@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.kis.pz1.cards.Card;
-import pl.edu.agh.kis.pz1.exceptions.NoPlacesException;
 import pl.edu.agh.kis.pz1.player.Player;
 
 import java.util.ArrayList;
@@ -94,7 +93,7 @@ public class GameTest {
     }
 
     @Test
-    public void addPlayer() throws NoPlacesException {
+    public void addPlayer() {
         assertTrue(game.addPlayer(0));
         assertEquals(5, game.getAllFunds());
         assertTrue(game.addPlayer(1));
