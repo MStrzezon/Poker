@@ -4,19 +4,58 @@ import pl.edu.agh.kis.pz1.cards.Card;
 
 import java.util.List;
 
+/**
+ * Tie is the static class that breaks the tie.
+ * It may settle when both players have:
+ *  <ul>
+ *      <li>straight flush</li>
+ *      <li>four of a kind</li>
+ *      <li>full house</li>
+ *      <li>flush</li>
+ *      <li>straight</li>
+ *      <li>free of a kind</li>
+ *      <li>two pair</li>
+ *      <li>one pair</li>
+ *      <li>high card</li>
+ *  </ul>
+ */
 public class Tie {
+    /**
+     * Throws exception if someone wants to create Tie object.
+     */
     private Tie() {
         throw new IllegalStateException("Utility class");
     }
 
+    /**
+     * Resolves when both players have straight flush.
+     * @param a <code>List&lt;Card&gt;</code> of player a.
+     * @param b <code>List&lt;Card&gt;</code> of player b.
+     * @return  <code>true</code> if player a has better hand than player b.
+     *          <code>false</code> otherwise.
+     */
     public static boolean straightFlush(List<Card> a, List<Card> b) {
         return a.get(0).rank().ordinal() > b.get(0).rank().ordinal();
     }
 
+    /**
+     * Resolves when both players have four of a kind.
+     * @param a <code>List&lt;Card&gt;</code> of player a.
+     * @param b <code>List&lt;Card&gt;</code> of player b.
+     * @return  <code>true</code> if player a has better hand than player b.
+     *          <code>false</code> otherwise.
+     */
     public static boolean fourOfAKind(List<Card> a, List<Card> b) {
         return a.get(4).rank().ordinal() > b.get(4).rank().ordinal();
     }
 
+    /**
+     * Resolves when both players have full house.
+     * @param a <code>List&lt;Card&gt;</code> of player a.
+     * @param b <code>List&lt;Card&gt;</code> of player b.
+     * @return  <code>true</code> if player a has better hand than player b.
+     *          <code>false</code> otherwise.
+     */
     public static boolean fullHouse(List<Card> a, List<Card> b) {
         int a3Best = 0, b3Best = 0, a2Best = 0, b2Best = 0;
         if (a.get(0).rank().ordinal()==a.get(2).rank().ordinal()) {
@@ -40,14 +79,35 @@ public class Tie {
         else return a2Best > b2Best;
     }
 
+    /**
+     * Resolves when both players have flush.
+     * @param a <code>List&lt;Card&gt;</code> of player a.
+     * @param b <code>List&lt;Card&gt;</code> of player b.
+     * @return  <code>true</code> if player a has better hand than player b.
+     *          <code>false</code> otherwise.
+     */
     public static boolean flush(List<Card> a, List<Card> b) {
         return a.get(0).rank().ordinal() > b.get(0).rank().ordinal();
     }
 
-    public static boolean streigh(List<Card> a, List<Card> b) {
+    /**
+     * Resolves when both players have straight.
+     * @param a <code>List&lt;Card&gt;</code> of player a.
+     * @param b <code>List&lt;Card&gt;</code> of player b.
+     * @return  <code>true</code> if player a has better hand than player b.
+     *          <code>false</code> otherwise.
+     */
+    public static boolean straight(List<Card> a, List<Card> b) {
         return a.get(0).rank().ordinal() > b.get(0).rank().ordinal();
     }
 
+    /**
+     * Resolves when both players have straight free of a kind.
+     * @param a <code>List&lt;Card&gt;</code> of player a.
+     * @param b <code>List&lt;Card&gt;</code> of player b.
+     * @return  <code>true</code> if player a has better hand than player b.
+     *          <code>false</code> otherwise.
+     */
     public static boolean freeOfAKind(List<Card> a, List<Card> b) {
         int a3Best = 0, b3Best = 0;
         if (a.get(0).rank().ordinal()==a.get(2).rank().ordinal()) {
@@ -65,6 +125,13 @@ public class Tie {
         return a3Best > b3Best;
     }
 
+    /**
+     * Resolves when both players have two pairs.
+     * @param a <code>List&lt;Card&gt;</code> of player a.
+     * @param b <code>List&lt;Card&gt;</code> of player b.
+     * @return  <code>true</code> if player a has better hand than player b.
+     *          <code>false</code> otherwise.
+     */
     public static boolean twoPairs(List<Card> a, List<Card> b) {
         int aBigger = 0;
         int aSmaller = 0;
@@ -106,6 +173,13 @@ public class Tie {
         } else return aBigger > bBigger;
     }
 
+    /**
+     * Resolves when both players have one pair.
+     * @param a <code>List&lt;Card&gt;</code> of player a.
+     * @param b <code>List&lt;Card&gt;</code> of player b.
+     * @return  <code>true</code> if player a has better hand than player b.
+     *          <code>false</code> otherwise.
+     */
     public static boolean onePair(List<Card> a, List<Card> b) {
         int aPair = 0, aBest = 0;
         if (a.get(0).rank().ordinal()==a.get(1).rank().ordinal()) {
@@ -145,7 +219,14 @@ public class Tie {
         return aPair > bPair;
     }
 
-    public static boolean hightCard(List<Card> a, List<Card> b) {
+    /**
+     * Resolves when both players have high card.
+     * @param a <code>List&lt;Card&gt;</code> of player a.
+     * @param b <code>List&lt;Card&gt;</code> of player b.
+     * @return  <code>true</code> if player a has better hand than player b.
+     *          <code>false</code> otherwise.
+     */
+    public static boolean highCard(List<Card> a, List<Card> b) {
         return a.get(0).rank().ordinal() > b.get(0).rank().ordinal();
     }
 }

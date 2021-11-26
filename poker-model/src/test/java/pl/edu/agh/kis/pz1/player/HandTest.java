@@ -98,11 +98,11 @@ public class HandTest {
         Card c = new Card(Card.Rank.THREE, Card.Suit.CLUBS);
         hand.addCard(c);
         hand.sortCards();
-        assertFalse(hand.isStreigh());
+        assertFalse(hand.isStraight());
         hand.removeCard(c);
         hand.addCard(new Card(Card.Rank.TEN, Card.Suit.HEARTS));
         hand.sortCards();
-        assertTrue(hand.isStreigh());
+        assertTrue(hand.isStraight());
     }
 
     @Test
@@ -221,7 +221,7 @@ public class HandTest {
         hand.addCard(new Card(Card.Rank.EIGHT, Card.Suit.HEARTS));
         hand.addCard(new Card(Card.Rank.DEUCE, Card.Suit.SPADES));
         hand.addCard(new Card(Card.Rank.JACK, Card.Suit.DIAMONDS));
-        assertEquals(Hand.Value.HIGHT_CARD, hand.getValue());
+        assertEquals(Hand.Value.HIGH_CARD, hand.getValue());
         hand.getCards().clear();
         hand.addCard(new Card(Card.Rank.ACE, Card.Suit.SPADES));
         hand.addCard(new Card(Card.Rank.NINE, Card.Suit.CLUBS));

@@ -16,11 +16,11 @@ public class Hand {
      * Poker Hand Rankings.
      */
     public enum Value {
-        HIGHT_CARD,
+        HIGH_CARD,
         ONE_PAIR,
         TWO_PAIRS,
         THREE_OF_A_KIND,
-        STREIGH,
+        STRAIGHT,
         FLUSH,
         FULL_HOUSE,
         FOUR_OF_KIND,
@@ -122,7 +122,7 @@ public class Hand {
      * @return <code>true</code> if player has straight;
      *         <code>false</code> otherwise.
      */
-    public boolean isStreigh() {
+    public boolean isStraight() {
         return cards.get(0).rank().ordinal() - cards.get(4).rank().ordinal() == 4;
     }
 
@@ -169,7 +169,7 @@ public class Hand {
      *         <code>false</code> otherwise.
      */
     public boolean isStraightFlush() {
-        return isFlush() && isStreigh();
+        return isFlush() && isStraight();
     }
 
     /**
@@ -191,11 +191,11 @@ public class Hand {
         if (isFourOfAKind()) return Value.FOUR_OF_KIND;
         if (isFullHouse()) return Value.FULL_HOUSE;
         if (isFlush()) return Value.FLUSH;
-        if (isStreigh()) return Value.STREIGH;
+        if (isStraight()) return Value.STRAIGHT;
         if (isThreeOfAKind()) return Value.THREE_OF_A_KIND;
         if (isTwoPairs()) return Value.TWO_PAIRS;
         if (isOnePair()) return Value.ONE_PAIR;
-        else return Value.HIGHT_CARD;
+        else return Value.HIGH_CARD;
     }
 
     /**
@@ -227,8 +227,8 @@ public class Hand {
             case FLUSH -> {
                 return boolToInt(Tie.flush(cards, anotherHand));
             }
-            case STREIGH -> {
-                return boolToInt(Tie.streigh(cards, anotherHand));
+            case STRAIGHT -> {
+                return boolToInt(Tie.straight(cards, anotherHand));
             }
             case THREE_OF_A_KIND -> {
                 return boolToInt(Tie.freeOfAKind(cards, anotherHand));
@@ -239,8 +239,8 @@ public class Hand {
             case ONE_PAIR -> {
                 return boolToInt(Tie.onePair(cards, anotherHand));
             }
-            case HIGHT_CARD -> {
-                return boolToInt(Tie.hightCard(cards, anotherHand));
+            case HIGH_CARD -> {
+                return boolToInt(Tie.highCard(cards, anotherHand));
             }
             default -> {
                 return 1;

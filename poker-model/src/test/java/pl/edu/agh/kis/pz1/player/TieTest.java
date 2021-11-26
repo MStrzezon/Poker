@@ -1,7 +1,5 @@
 package pl.edu.agh.kis.pz1.player;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.kis.pz1.cards.Card;
 
@@ -98,8 +96,8 @@ public class TieTest {
         b.add(new Card(Card.Rank.NINE, Card.Suit.DIAMONDS));
         b.add(new Card(Card.Rank.EIGHT, Card.Suit.SPADES));
         b.add(new Card(Card.Rank.SEVEN, Card.Suit.CLUBS));
-        assertFalse(Tie.streigh(a, b));
-        assertTrue(Tie.streigh(b, a));
+        assertFalse(Tie.straight(a, b));
+        assertTrue(Tie.straight(b, a));
     }
 
     @Test
@@ -238,7 +236,7 @@ public class TieTest {
         b.add(new Card(Card.Rank.EIGHT, Card.Suit.CLUBS));
         b.add(new Card(Card.Rank.FIVE, Card.Suit.CLUBS));
         b.add(new Card(Card.Rank.DEUCE, Card.Suit.SPADES));
-        assertTrue(Tie.hightCard(a, b));
-        assertFalse(Tie.hightCard(b, a));
+        assertTrue(Tie.highCard(a, b));
+        assertFalse(Tie.highCard(b, a));
     }
 }
