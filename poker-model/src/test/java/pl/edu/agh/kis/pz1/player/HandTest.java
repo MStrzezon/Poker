@@ -37,7 +37,7 @@ public class HandTest {
     public void deleteCard() {
         hand.addCard(new Card(Card.Rank.ACE, Card.Suit.DIAMONDS));
         hand.addCard(new Card(Card.Rank.DEUCE, Card.Suit.CLUBS));
-        hand.deleteCard(new Card(Card.Rank.ACE, Card.Suit.DIAMONDS));
+        hand.removeCard(new Card(Card.Rank.ACE, Card.Suit.DIAMONDS));
         assertEquals(1, hand.getCards().size());
     }
 
@@ -51,7 +51,7 @@ public class HandTest {
         hand.addCard(c);
         hand.sortCards();
         assertFalse(hand.isOnePair());
-        hand.deleteCard(c);
+        hand.removeCard(c);
         hand.addCard(new Card(Card.Rank.ACE, Card.Suit.CLUBS));
         hand.sortCards();
         assertTrue(hand.isOnePair());
@@ -67,7 +67,7 @@ public class HandTest {
         hand.addCard(c);
         hand.sortCards();
         assertFalse(hand.isTwoPairs());
-        hand.deleteCard(c);
+        hand.removeCard(c);
         hand.addCard(new Card(Card.Rank.TEN, Card.Suit.HEARTS));
         hand.sortCards();
         assertTrue(hand.isTwoPairs());
@@ -83,7 +83,7 @@ public class HandTest {
         hand.addCard(c);
         hand.sortCards();
         assertFalse(hand.isThreeOfAKind());
-        hand.deleteCard(c);
+        hand.removeCard(c);
         hand.addCard(new Card(Card.Rank.ACE, Card.Suit.HEARTS));
         hand.sortCards();
         assertTrue(hand.isThreeOfAKind());
@@ -99,7 +99,7 @@ public class HandTest {
         hand.addCard(c);
         hand.sortCards();
         assertFalse(hand.isStreigh());
-        hand.deleteCard(c);
+        hand.removeCard(c);
         hand.addCard(new Card(Card.Rank.TEN, Card.Suit.HEARTS));
         hand.sortCards();
         assertTrue(hand.isStreigh());
@@ -115,7 +115,7 @@ public class HandTest {
         hand.addCard(c);
         hand.sortCards();
         assertFalse(hand.isFlush());
-        hand.deleteCard(c);
+        hand.removeCard(c);
         hand.addCard(new Card(Card.Rank.TEN, Card.Suit.DIAMONDS));
         hand.sortCards();
         assertTrue(hand.isFlush());
@@ -131,7 +131,7 @@ public class HandTest {
         hand.addCard(c);
         hand.sortCards();
         assertFalse(hand.isFullHouse());
-        hand.deleteCard(c);
+        hand.removeCard(c);
         hand.addCard(new Card(Card.Rank.ACE, Card.Suit.HEARTS));
         hand.sortCards();
         assertTrue(hand.isFullHouse());
@@ -147,7 +147,7 @@ public class HandTest {
         hand.addCard(c);
         hand.sortCards();
         assertFalse(hand.isFourOfAKind());
-        hand.deleteCard(c);
+        hand.removeCard(c);
         hand.addCard(new Card(Card.Rank.ACE, Card.Suit.SPADES));
         hand.sortCards();
         assertTrue(hand.isFourOfAKind());
@@ -163,7 +163,7 @@ public class HandTest {
         hand.addCard(c);
         hand.sortCards();
         assertFalse(hand.isStraightFlush());
-        hand.deleteCard(c);
+        hand.removeCard(c);
         hand.addCard(new Card(Card.Rank.SIX, Card.Suit.SPADES));
         hand.sortCards();
         assertTrue(hand.isStraightFlush());
@@ -179,7 +179,7 @@ public class HandTest {
         hand.addCard(c);
         hand.sortCards();
         assertFalse(hand.isRoyalFlush());
-        hand.deleteCard(c);
+        hand.removeCard(c);
         hand.addCard(new Card(Card.Rank.TEN, Card.Suit.SPADES));
         hand.sortCards();
         assertTrue(hand.isRoyalFlush());
@@ -229,16 +229,5 @@ public class HandTest {
         hand.addCard(new Card(Card.Rank.DEUCE, Card.Suit.SPADES));
         hand.addCard(new Card(Card.Rank.JACK, Card.Suit.DIAMONDS));
         assertEquals(Hand.Value.ONE_PAIR, hand.getValue());
-    }
-
-    @Test
-    public void HightCard() {
-        hand.addCard(new Card(Card.Rank.TEN, Card.Suit.SPADES));
-        hand.addCard(new Card(Card.Rank.EIGHT, Card.Suit.SPADES));
-        hand.addCard(new Card(Card.Rank.NINE, Card.Suit.SPADES));
-        hand.addCard(new Card(Card.Rank.SEVEN, Card.Suit.SPADES));
-        hand.addCard(new Card(Card.Rank.SIX, Card.Suit.SPADES));
-        hand.sortCards();
-        assertEquals(new Card(Card.Rank.TEN, Card.Suit.SPADES), hand.hightCard());
     }
 }
