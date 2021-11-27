@@ -1,11 +1,12 @@
 package pl.edu.agh.kis.pz1.client;
 
+
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 public class Client {
     private Socket socket;
@@ -50,7 +51,7 @@ public class Client {
             while (socket.isConnected()) {
                 try {
                     messageFromServer = bufferedReader.readLine();
-                    System.out.println(messageFromServer);
+                    logger.info(messageFromServer);
                 } catch (IOException e) {
                     closeEverything();
                 }
@@ -75,6 +76,7 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException {
+        PropertyConfigurator.configure("./poker-common/src/main/resources/log4j.properties");
         Scanner s = new Scanner(System.in);
         logger.info( "WELCOME IN POKER GAME!\nEnter your username for the game: ");
         String username = s.nextLine();
