@@ -7,8 +7,17 @@ import pl.edu.agh.kis.pz1.server.Server;
 
 import java.util.*;
 
+/**
+ * GameProtocol is a class that is responsible for client service.
+ */
 public class GameProtocol {
+    /**
+     * poker game
+     */
     private Game game = null;
+    /**
+     *
+     */
     private static final String NOT_YOUR_TURN = "Not your turn!";
     private static final String PLAY_GAME_TO_CALL = "You must play the game to be able to call!";
     private static final String PLAYER = "Player ";
@@ -17,6 +26,9 @@ public class GameProtocol {
     private static final String ALL_FUNDS = "\nAll funds: ";
     private static final String ENTER_TO_CREATE_GAME = "The game has not been created yet! Enter /create {ante} to create a game! Max ante: 10";
 
+    /**
+     * game state
+     */
     public enum GameState {
         NOT_CREATED,
         CREATED,
@@ -25,8 +37,18 @@ public class GameProtocol {
         END
     }
 
+    /**
+     * current state of this game.
+     */
     private GameState state = GameState.NOT_CREATED;
 
+    /**
+     * Responds to the client's instructions
+     * @param userId       if of user.
+     * @param move         client instruction
+     * @param parameters   parameters of move/instruction
+     * @return             the inscription to be displayed to the customer.
+     */
     public String[] processInput(int userId, String move, List<Integer> parameters) {
         switch (move) {
             case "/help" -> {
@@ -83,6 +105,10 @@ public class GameProtocol {
         }
     }
 
+    /**
+     * Creates help information.
+     * @return  help information.
+     */
     private String[] help() {
         return new String[] {"ONE", """
                 IN MENU:
@@ -105,6 +131,14 @@ public class GameProtocol {
                     ENTER - after click enter you get info about game."""};
     }
 
+    /**
+     * Informs about current state.
+     * @return  <code>Game not created!</code>.
+     *          <code>Game created but not started!</code>
+     *          <code>It's: ``current round`` round. Now playing player nr: ``current player```</code>
+     *          <code>It's a draw time!</code>
+     *          <code>Game is finished. Enter /result to show result.</code>
+     */
     private String[] state() {
         if (state == GameState.NOT_CREATED) {
             return new String[]{"ONE", "Game not created!"};
@@ -123,7 +157,12 @@ public class GameProtocol {
         }
         return new String[2];
     }
-
+//TODO create docs below
+    /**
+     * Creates a game.
+     * @param parameters ante
+     * @return information about execution of the creating a game.
+     */
     private String[] create(List<Integer> parameters) {
         if (state == GameState.NOT_CREATED) {
             if (parameters.size() == 1 && parameters.get(0) > 0 && parameters.get(0) <= 10) {
@@ -137,6 +176,11 @@ public class GameProtocol {
         }
     }
 
+    /**
+     * Joins to the game
+     * @param userId id of user.
+     * @return       information about execution of the joining to the game.
+     */
     private String[] join(int userId) {
         if (state == GameState.NOT_CREATED) return new String[]{"ONE",
                 ENTER_TO_CREATE_GAME};
@@ -153,6 +197,7 @@ public class GameProtocol {
         }
         return new String[2];
     }
+
 
     private String[] start(int userId) {
         if (state == GameState.NOT_CREATED) return new String[]{"ONE",
