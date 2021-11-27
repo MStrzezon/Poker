@@ -20,6 +20,8 @@ public class ClientHandler implements Runnable {
     private static int counter = 0;
     private static final Logger logger = Logger.getLogger( ClientHandler.class.getName() );
 
+    private static final String START_FRAME = "--------------------------------------------\n";
+    private static final String END_FRAME = "\n--------------------------------------------\n";
 
     public ClientHandler(Socket socket) throws IOException {
         try {
@@ -29,8 +31,8 @@ public class ClientHandler implements Runnable {
             this.clientUsername = bufferedReader.readLine();
             id = counter++;
             clientHandlers.add(this);
-            bufferedWriter.write("\nWelcome " + clientUsername + ". A number of participants: " + clientHandlers.size() +
-                    "\nEnter /help to see all commands.\n");
+            bufferedWriter.write(START_FRAME+"Welcome " + clientUsername + ". A number of participants: " + clientHandlers.size() +
+                    "\nEnter /help to see all commands."+END_FRAME);
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } catch (IOException e) {
@@ -51,11 +53,11 @@ public class ClientHandler implements Runnable {
                 }
                 String[] action = gp.processInput(id, tokens[0], parameters);
                 if (Objects.equals(action[0], "ONE")) {
-                    bufferedWriter.write(action[1]);
+                    bufferedWriter.write(START_FRAME+action[1]+END_FRAME);
                     bufferedWriter.newLine();
                     bufferedWriter.flush();
                 } else {
-                    broadcastMessage(action[1]);
+                    broadcastMessage(START_FRAME+action[1]+END_FRAME);
                 }
             } catch (IOException e) {
                 closeEverything(socket, bufferedReader, bufferedWriter);

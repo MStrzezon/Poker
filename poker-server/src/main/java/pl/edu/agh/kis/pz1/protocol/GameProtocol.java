@@ -208,7 +208,7 @@ public class GameProtocol {
     private String[] hand(int userId) {
         if (state == GameState.NOT_CREATED || state == GameState.CREATED)
             return new String[]{"ONE", "You must play the game to display your deck of cards!"};
-        if (state == GameState.ROUND || state == GameState.DRAW) {
+        if (state == GameState.ROUND || state == GameState.DRAW || state == GameState.END) {
             if (game.isInGame(userId)) {
                 StringBuilder hand = new StringBuilder();
                 int card_counter = 0;

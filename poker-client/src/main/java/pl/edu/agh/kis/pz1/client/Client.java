@@ -3,6 +3,7 @@ package pl.edu.agh.kis.pz1.client;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Client {
@@ -48,7 +49,7 @@ public class Client {
             while (socket.isConnected()) {
                 try {
                     messageFromServer = bufferedReader.readLine();
-                    logger.info(messageFromServer);
+                    System.out.println(messageFromServer);
                 } catch (IOException e) {
                     closeEverything();
                 }
