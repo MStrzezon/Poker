@@ -85,7 +85,6 @@ public class GameProtocol {
 
     private String[] help() {
         return new String[] {"ONE", """
-                ------------------------------------------------------------------------------------------------------
                 IN MENU:
                     /help - print all commands.
                     /state - print who makes move.
@@ -103,8 +102,7 @@ public class GameProtocol {
                                            If no card is given, it means that the participant does not want to draw.
                     /result - print result of the game.
                     /end - end game in order to start new.
-                    ENTER - after click enter you get info about game.
-                ------------------------------------------------------------------------------------------------------"""};
+                    ENTER - after click enter you get info about game."""};
     }
 
     private String[] state() {
