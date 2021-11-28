@@ -65,7 +65,7 @@ public class GameProtocol {
      * @param userId       if of user.
      * @param move         client instruction
      * @param parameters   parameters of move/instruction
-     * @return             the inscription to be displayed to the customer.
+     * @return             the inscription to be displayed to the client.
      */
     public String[] processInput(int userId, String move, List<Integer> parameters) {
         switch (move) {
