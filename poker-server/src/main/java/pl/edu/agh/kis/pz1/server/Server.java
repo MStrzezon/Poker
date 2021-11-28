@@ -6,6 +6,9 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Server for the poker game.
+ */
 public class Server {
     /**
      * server socket.

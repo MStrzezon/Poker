@@ -44,7 +44,7 @@ public class GameProtocol {
 
     /**
      * Responds to the client's instructions such as:
-     * <lu>
+     * <ul>
      *     <li>/help</li>
      *     <li>/state</li>
      *     <li>/create</li>
@@ -61,7 +61,7 @@ public class GameProtocol {
      *     <li>/result</li>
      *     <li>/end</li>
      *     <li>empty message</li>
-     * </lu>
+     * </ul>
      * @param userId       if of user.
      * @param move         client instruction
      * @param parameters   parameters of move/instruction

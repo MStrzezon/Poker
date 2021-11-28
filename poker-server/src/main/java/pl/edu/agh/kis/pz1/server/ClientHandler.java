@@ -10,8 +10,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 /**
- * ClientHandler is the class that implements Runnable.
- * The ClientHandler object communicates to the client by reading from and writing to the socket.
+ * ClientHandler is the class that implements Runnable. The ClientHandler object communicates to the client by reading from and writing to the socket.
  * There is static list of the current ClientHandler objects, which allow broadcasting message to all clients on this server.
  */
 public class ClientHandler implements Runnable {
