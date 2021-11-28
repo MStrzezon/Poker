@@ -16,14 +16,32 @@ public class GameProtocol {
      */
     private Game game = null;
     /**
-     *
+     * Stores message that not your turn.
      */
     private static final String NOT_YOUR_TURN = "Not your turn!";
+    /**
+     * Stores message that you must play the game to be able to call!.
+     */
     private static final String PLAY_GAME_TO_CALL = "You must play the game to be able to call!";
+    /**
+     * Stores text "Player".
+     */
     private static final String PLAYER = "Player ";
+    /**
+     * Stores text "Current bet:".
+     */
     private static final String CURRENT_BET = ".    Current bet: ";
+    /**
+     * Stores message that game is over. Enter /result to see result.
+     */
     private static final String SEE_RESULT = "Game is over. Enter /result to see result.";
+    /**
+     * Stores text "All funds".
+     */
     private static final String ALL_FUNDS = "\nAll funds: ";
+    /**
+     * Stores message that the game has not been created yet.
+     */
     private static final String ENTER_TO_CREATE_GAME = "The game has not been created yet! Enter /create {ante} to create a game! Max ante: 10";
 
     /**
