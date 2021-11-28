@@ -43,7 +43,25 @@ public class GameProtocol {
     private GameState state = GameState.NOT_CREATED;
 
     /**
-     * Responds to the client's instructions
+     * Responds to the client's instructions such as:
+     * <lu>
+     *     <li>/help</li>
+     *     <li>/state</li>
+     *     <li>/create</li>
+     *     <li>/join</li>
+     *     <li>/start</li>
+     *     <li>/players</li>
+     *     <li>/id</li>
+     *     <li>/money</li>
+     *     <li>/hand</li>
+     *     <li>/call</li>
+     *     <li>/raise</li>
+     *     <li>/fold</li>
+     *     <li>/draw</li>
+     *     <li>/result</li>
+     *     <li>/end</li>
+     *     <li>empty message</li>
+     * </lu>
      * @param userId       if of user.
      * @param move         client instruction
      * @param parameters   parameters of move/instruction
@@ -107,7 +125,7 @@ public class GameProtocol {
 
     /**
      * Creates help information.
-     * @return  help information.
+     * @return  help information about available functions.
      */
     private String[] help() {
         return new String[] {"ONE", """

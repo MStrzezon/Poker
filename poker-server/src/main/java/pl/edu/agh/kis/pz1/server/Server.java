@@ -1,7 +1,5 @@
 package pl.edu.agh.kis.pz1.server;
 
-import pl.edu.agh.kis.pz1.game.Game;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,12 +7,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Server {
+    /**
+     * server socket.
+     */
     private final ServerSocket serverSocket;
+    /**
+     * max number of players in game.
+     */
     public static int maxPlayers = 4;
+    /**
+     * logger.
+     */
     private static final Logger logger = Logger.getLogger( Server.class.getName() );
+
+    /**
+     * creates server on the given socket.
+     * @param serverSocket  server socket.
+     */
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;}
 
+    /**
+     * starts server and waiting for clients.
+     */
     public void startServer() {
         try {
             while (!serverSocket.isClosed()) {
@@ -29,6 +44,10 @@ public class Server {
             closeServerSocket();
         }
     }
+
+    /**
+     * closes server socket.
+     */
     public void closeServerSocket() {
         try {
             if (serverSocket != null) {
@@ -36,12 +55,16 @@ public class Server {
             }
         } catch(IOException e) {
             logger.info(e.getMessage());
-
         }
     }
 
+    /**
+     * creates server socket and starts server.
+     * @param args         the maximum number of players that can participate in the game (2-4).
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
+        if (args.length != 1 && (Integer.parseInt(args[0]) < 2 || Integer.parseInt(args[0]) > 4)) {
             logger.log(Level.WARNING, "Usage: java -jar ... <max_players(2-4)>");
             System.exit(1);
         }
