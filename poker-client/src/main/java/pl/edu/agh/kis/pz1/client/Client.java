@@ -3,6 +3,7 @@ package pl.edu.agh.kis.pz1.client;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
