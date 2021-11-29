@@ -96,7 +96,7 @@ public class Player {
      *                <code>false</code> otherwise.
      */
     public boolean raise(int newWage) {
-        if (funds - newWage > 0) {
+        if (funds - newWage >= 0) {
             funds -= newWage;
             return true;
         }

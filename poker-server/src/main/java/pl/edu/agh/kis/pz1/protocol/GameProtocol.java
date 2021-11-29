@@ -478,7 +478,7 @@ public class GameProtocol {
                 int previousPlayer = game.getCurrentPlayer();
                 int previousRound = game.getCurrentRound();
                 game.makeAMove(3, 0, game.getPlayers().get(playerIndex));
-                if (game.getCurrentRound() == previousRound+1) {
+                if (game.getCurrentRound() == previousRound+1 && previousRound==1) {
                     return stateToDraw(previousPlayer, " folded. Now time to draw!\nAll funds: ");
                 }
                 else if (game.getCurrentRound() == previousRound+1 && previousRound==2) {

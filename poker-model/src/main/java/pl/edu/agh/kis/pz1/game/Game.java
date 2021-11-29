@@ -301,6 +301,7 @@ public class Game {
      */
     public List<Player> result() {
         List<Player> result = new ArrayList<>(players);
+        result.removeIf(p -> !p.getIsInPlay());
         result.sort((h1, h2) -> {
             if (h1.getHand().getValue().ordinal()==h2.getHand().getValue().ordinal()) {
                 return h2.getHand().compareTo(h1.getHand().getCards());
