@@ -17,11 +17,11 @@ public class ClientHandler implements Runnable {
     /**
      * Static GameProtocol that allow managing the game.
      */
-    public static GameProtocol gp = new GameProtocol();
+    public static final GameProtocol gp = new GameProtocol();
     /**
      * Stores the list of all currently active ClientHandler instances.
      */
-    public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+    protected static List<ClientHandler> clientHandlers = new ArrayList<>();
     /**
      * Stores the network socket used to interact with the client.
      */

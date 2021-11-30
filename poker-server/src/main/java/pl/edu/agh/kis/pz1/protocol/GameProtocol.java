@@ -87,60 +87,42 @@ public class GameProtocol {
      */
     public String[] processInput(int userId, String move, List<Integer> parameters) {
         switch (move) {
-            case "/help" -> {
+            case "/help":
                 return help();
-            }
-            case "/state" -> {
+            case "/state":
                 return state();
-            }
-            case "/create" -> {
+            case "/create":
                 return create(parameters);
-            }
-            case "/join" -> {
+            case "/join":
                 return join(userId);
-            }
-            case "/start" -> {
+            case "/start":
                 return start(userId);
-            }
-            case "/players" -> {
+            case "/players":
                 return players();
-            }
-            case "/id" -> {
+            case "/id":
                 return id(userId);
-            }
-            case "/money" -> {
+            case "/money":
                 return money(userId);
-            }
-            case "/funds" -> {
+            case "/funds":
                 return funds(userId);
-            }
-            case "/hand" -> {
+            case "/hand":
                 return hand(userId);
-            }
-            case "/call" -> {
+            case "/call":
                 return call(userId);
-            }
-            case "/raise" -> {
+            case "/raise":
                 return raise(userId, parameters);
-            }
-            case "/fold" -> {
+            case "/fold":
                 return fold(userId);
-            }
-            case "/draw" -> {
+            case "/draw":
                 return draw(userId, parameters);
-            }
-            case "/result" -> {
+            case "/result":
                 return result();
-            }
-            case "/end" -> {
+            case "/end":
                 return end();
-            }
-            case "" -> {
+            case "":
                 return emptyMessage(userId);
-            }
-            default -> {
+            default:
                 return new String[]{"ONE", "Command not recognized. Enter /help to print all commands"};
-            }
         }
     }
 
@@ -353,9 +335,9 @@ public class GameProtocol {
         if (state == GameState.ROUND || state == GameState.DRAW || state == GameState.END) {
             if (game.isInGame(userId)) {
                 StringBuilder hand = new StringBuilder();
-                int card_counter = 0;
+                int cardCounter = 0;
                 for (Card card : game.getPlayer(userId).getHand().getCards()) {
-                    hand.append(card_counter++).append(": ").append(card.toString()).append("\n");
+                    hand.append(cardCounter++).append(": ").append(card.toString()).append("\n");
                 }
                 return new String[]{"ONE", hand.toString()};
             }
@@ -370,13 +352,13 @@ public class GameProtocol {
      * Supports the case /call
      * @param userId id of user.
      * @return <code>You must play the game to be able to call!</code>
-     *         <code>round_call(userId)</code>
+     *         <code>roundCall(userId)</code>
      *         <code>Now is time to draw. You cannot call!</code>
      *         <code>Game is over. Enter /result to see result.</code>
      */
     private String[] call(int userId) {
         if (state == GameState.NOT_CREATED || state == GameState.CREATED) return new String[]{"ONE", PLAY_GAME_TO_CALL};
-        if (state == GameState.ROUND) return round_call(userId);
+        if (state == GameState.ROUND) return roundCall(userId);
         if (state == GameState.DRAW) return new String[]{"ONE", "Now is time to draw. You cannot call!"};
         if (state == GameState.END) return new String[]{"ONE", SEE_RESULT};
         return new String[2];
@@ -389,7 +371,7 @@ public class GameProtocol {
      *               <code>You don't have money!</code>
      *               <code>Not your turn!</code>
      */
-    private String[] round_call(int userId) {
+    private String[] roundCall(int userId) {
         int playerIndex = game.getPlayers().indexOf(game.getPlayer(userId));
         if (game.getCurrentPlayer() == playerIndex) {
             int previousPlayer = game.getCurrentPlayer();
@@ -425,13 +407,13 @@ public class GameProtocol {
      * @param userId     id of user
      * @param parameters new bet
      * @return           <code>You must play the game to be able to raise!</code>
-     *                   <code>round_raise(userId, parameters)</code>
+     *                   <code>roundRaise(userId, parameters)</code>
      *                   <code>Now is time to draw. You cannot raise!</code>
      *                   <code>Game is over. Enter /result to see result.</code>
      */
     private String[] raise(int userId, List<Integer> parameters) {
         if (state==GameState.NOT_CREATED || state == GameState.CREATED) return new String[]{"ONE", "You must play the game to be able to raise!"};
-        if (state==GameState.ROUND) return round_raise(userId, parameters);
+        if (state==GameState.ROUND) return roundRaise(userId, parameters);
         if (state == GameState.DRAW) return new String[]{"ONE", "Now is time to draw. You cannot raise!"};
         if (state == GameState.END) return new String[]{"ONE", SEE_RESULT};
         return new String[2];
@@ -445,12 +427,12 @@ public class GameProtocol {
      *                   <code>You should raise bet or you don't have money!</code>
      *                   <code>Not your turn!</code>
      */
-    private String[] round_raise(int userId, List<Integer> parameters) {
+    private String[] roundRaise(int userId, List<Integer> parameters) {
         int playerIndex = game.getPlayers().indexOf(game.getPlayer(userId));
         if (game.getCurrentPlayer() == playerIndex) {
             int previousPlayer = game.getCurrentPlayer();
             int previousRound = game.getCurrentRound();
-            if (parameters.size() == 0) return new String[]{"ONE", "Enter new wage!"};
+            if (parameters.isEmpty()) return new String[]{"ONE", "Enter new wage!"};
             if (game.makeAMove(2, parameters.get(0), game.getPlayers().get(playerIndex))) {
                 return updateStateRaise(previousPlayer, previousRound);
             } else return new String[]{"ONE", "You should raise bet or you don't have money!"};
@@ -575,7 +557,7 @@ public class GameProtocol {
      *                   <code>You should enter max 5 cards!</code>
      */
     private String[] currentPlayerDraw(int userId, List<Integer> parameters) {
-        if (parameters.size()==0) {
+        if (parameters.isEmpty()) {
             return msgAfterDraw();
         } else if (parameters.size() <= 5) {
             List<Card> cards = new ArrayList<>();
@@ -618,10 +600,12 @@ public class GameProtocol {
             result.append("RESULTS:\n");
             int playerCounter = 1;
             for (Player player : game.result()) {
-                result.append(playerCounter++).append(") Player ").append(player.getId()).append("\n");
+                result.append(playerCounter++).append(") Player ").append(game.getPlayers().indexOf(player))
+                        .append("--").append(player.getHand().getValue()).append("\n");
             }
             return new String[]{"ONE", result.toString()};
         }
+
         return new String[2];
     }
 

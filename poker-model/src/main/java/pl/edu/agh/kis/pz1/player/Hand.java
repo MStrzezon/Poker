@@ -204,7 +204,7 @@ public class Hand {
      * @return int
      */
     private int boolToInt(boolean a) {
-        return a? 1:0;
+        return a? 1:-1;
     }
 
     /**
@@ -215,36 +215,26 @@ public class Hand {
      */
     public int compareTo(List<Card> anotherHand) {
         switch (getValue()) {
-            case STRAIGHT_FLUSH -> {
+            case STRAIGHT_FLUSH:
                 return boolToInt(Tie.straightFlush(cards, anotherHand));
-            }
-            case FOUR_OF_KIND -> {
+            case FOUR_OF_KIND:
                 return boolToInt(Tie.fourOfAKind(cards, anotherHand));
-            }
-            case FULL_HOUSE -> {
+            case FULL_HOUSE:
                 return boolToInt(Tie.fullHouse(cards, anotherHand));
-            }
-            case FLUSH -> {
+            case FLUSH:
                 return boolToInt(Tie.flush(cards, anotherHand));
-            }
-            case STRAIGHT -> {
+            case STRAIGHT:
                 return boolToInt(Tie.straight(cards, anotherHand));
-            }
-            case THREE_OF_A_KIND -> {
+            case THREE_OF_A_KIND:
                 return boolToInt(Tie.freeOfAKind(cards, anotherHand));
-            }
-            case TWO_PAIRS -> {
+            case TWO_PAIRS:
                 return boolToInt(Tie.twoPairs(cards, anotherHand));
-            }
-            case ONE_PAIR -> {
+            case ONE_PAIR:
                 return boolToInt(Tie.onePair(cards, anotherHand));
-            }
-            case HIGH_CARD -> {
+            case HIGH_CARD:
                 return boolToInt(Tie.highCard(cards, anotherHand));
-            }
-            default -> {
+            default:
                 return 1;
-            }
         }
     }
 }

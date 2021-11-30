@@ -57,7 +57,10 @@ public class Tie {
      *          <code>false</code> otherwise.
      */
     public static boolean fullHouse(List<Card> a, List<Card> b) {
-        int a3Best = 0, b3Best = 0, a2Best = 0, b2Best = 0;
+        int a3Best = 0;
+        int b3Best = 0;
+        int a2Best = 0;
+        int b2Best = 0;
         if (a.get(0).rank().ordinal()==a.get(2).rank().ordinal()) {
             a3Best=a.get(0).rank().ordinal();
             a2Best=a.get(3).rank().ordinal();
@@ -109,7 +112,8 @@ public class Tie {
      *          <code>false</code> otherwise.
      */
     public static boolean freeOfAKind(List<Card> a, List<Card> b) {
-        int a3Best = 0, b3Best = 0;
+        int a3Best = 0;
+        int b3Best = 0;
         if (a.get(0).rank().ordinal()==a.get(2).rank().ordinal()) {
             a3Best=a.get(0).rank().ordinal();
         }
@@ -181,7 +185,8 @@ public class Tie {
      *          <code>false</code> otherwise.
      */
     public static boolean onePair(List<Card> a, List<Card> b) {
-        int aPair = 0, aBest = 0;
+        int aPair = 0;
+        int aBest = 0;
         if (a.get(0).rank().ordinal()==a.get(1).rank().ordinal()) {
             aPair = a.get(0).rank().ordinal();
             aBest = a.get(2).rank().ordinal();
@@ -198,7 +203,8 @@ public class Tie {
             aPair = a.get(3).rank().ordinal();
             aBest = a.get(0).rank().ordinal();
         }
-        int bPair = 0, bBest = 0;
+        int bPair = 0;
+        int bBest = 0;
         if (b.get(0).rank().ordinal()==b.get(1).rank().ordinal()) {
             bPair = b.get(0).rank().ordinal();
             bBest = a.get(2).rank().ordinal();
@@ -227,6 +233,8 @@ public class Tie {
      *          <code>false</code> otherwise.
      */
     public static boolean highCard(List<Card> a, List<Card> b) {
-        return a.get(0).rank().ordinal() > b.get(0).rank().ordinal();
+        if (a.get(0).rank().ordinal() > b.get(0).rank().ordinal()) return true;
+        else if (a.get(0).rank().ordinal() == b.get(0).rank().ordinal()) return a.get(1).rank().ordinal() > b.get(1).rank().ordinal();
+        else return false;
     }
 }

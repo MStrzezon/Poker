@@ -17,7 +17,7 @@ public class Server {
     /**
      * max number of players in game.
      */
-    public static int maxPlayers = 4;
+    public static int maxPlayers;
     /**
      * logger.
      */

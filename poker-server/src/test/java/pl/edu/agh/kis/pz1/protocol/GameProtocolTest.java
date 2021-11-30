@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.kis.pz1.cards.Card;
+import pl.edu.agh.kis.pz1.server.Server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class GameProtocolTest {
     public void setUp() throws Exception {
         gp = new GameProtocol();
         parameters = new ArrayList<Integer>();
+        Server.maxPlayers = 4;
     }
 
     @After

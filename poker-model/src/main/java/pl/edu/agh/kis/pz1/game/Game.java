@@ -5,7 +5,6 @@ import pl.edu.agh.kis.pz1.cards.Deck;
 import pl.edu.agh.kis.pz1.player.Player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /** Game is a class of representation 5 Cards Daw Poker.
@@ -208,7 +207,7 @@ public class Game {
         Player nextPlayer;
         while(true) {
             queue.remove(0);
-            if (queue.size() == 0) {
+            if (queue.isEmpty()) {
                 queue = new ArrayList<>(players);
                 for (Player p:players) {
                     p.setFundsOnTable(0);
@@ -248,7 +247,7 @@ public class Game {
     public boolean makeAMove(int type, int wage, Player player) {
         if(!player.getIsInPlay()) return false;
         switch (type) {
-            case(1) -> {
+            case(1):
                 if (lastRaised != player){
                     if (player.call(bet)) {
                         addFunds(bet-player.getFundsOnTable());
@@ -260,8 +259,7 @@ public class Game {
                     nextPlayer();
                     return true;
                 }
-            }
-            case(2) -> {
+            case(2):
                 if (wage <= bet) return false;
                 if (player.raise(wage)){
                     bet = wage;
@@ -275,14 +273,12 @@ public class Game {
                     nextPlayer();
                     return true;
                 } else return false;
-            }
-            case(3) -> {
+            case(3):
                 player.fold();
                 nextPlayer();
-            }
-            default -> {
+                break;
+            default:
                 return false;
-            }
         }
         return true;
     }
