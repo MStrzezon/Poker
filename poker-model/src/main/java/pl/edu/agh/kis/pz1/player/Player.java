@@ -29,6 +29,10 @@ public class Player {
      * player hand with cards.
      */
     private final Hand hand;
+    /**
+     * Funds that was put on the table.
+     */
+    private int fundsOnTable;
 
     /**
      * Creates player with id and 50 funds.
@@ -39,6 +43,7 @@ public class Player {
         funds=50;
         this.isInPlay = true;
         hand = new Hand();
+        fundsOnTable = 0;
     }
 
     /**
@@ -63,6 +68,20 @@ public class Player {
     public boolean getIsInPlay() { return isInPlay;}
 
     /**
+     * Gets fundsOnTable
+     * @return player funds on the table.
+     */
+    public int getFundsOnTable() { return fundsOnTable; }
+
+    /**
+     * Gets fundsOnTable
+     * @return player funds on the table.
+     */
+    public void setFundsOnTable(int newFundsOnTable) {
+        fundsOnTable = newFundsOnTable;
+    }
+
+    /**
      * Sets isInPlay
      * @param state <code>true</code> if player is in the game.
      *              <code>false</code> otherwise.
@@ -82,8 +101,8 @@ public class Player {
      *             <code>false</code> otherwise.
      */
     public boolean call(int wage) {
-        if (funds - wage > 0) {
-            funds -= wage;
+        if (funds - (wage-fundsOnTable) > 0) {
+            funds -= (wage-fundsOnTable);
             return true;
         }
         else return false;
@@ -96,8 +115,8 @@ public class Player {
      *                <code>false</code> otherwise.
      */
     public boolean raise(int newWage) {
-        if (funds - newWage >= 0) {
-            funds -= newWage;
+        if (funds - (newWage-fundsOnTable) >= 0) {
+            funds -= (newWage-fundsOnTable);
             return true;
         }
         else return false;

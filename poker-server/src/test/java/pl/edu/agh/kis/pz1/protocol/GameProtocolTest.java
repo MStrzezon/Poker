@@ -211,10 +211,10 @@ public class GameProtocolTest {
         parameters.clear();
         parameters.add(14);
         assertEquals("Not your turn!", gp.processInput(2, "/raise", parameters)[1]);
-        assertEquals("Player 0 called. Now player 2\nAll funds: 62.    Current bet: 16", gp.processInput(0, "/call", parameters)[1]);
+        assertEquals("Player 0 called. Now player 2\nAll funds: 47.    Current bet: 16", gp.processInput(0, "/call", parameters)[1]);
         assertEquals("It's: 1 round. Now playing player nr: 2", gp.processInput(0, "/state", parameters)[1]);
-        assertEquals("Player 2 called. Now player 1\nAll funds: 78.    Current bet: 16", gp.processInput(2, "/call", parameters)[1]);
-        assertEquals("Player 1 called. Now time to draw!\nAll funds: 78.    Current bet: 16", gp.processInput(1, "/call", parameters)[1]);
+        assertEquals("Player 2 called. Now player 1\nAll funds: 63.    Current bet: 16", gp.processInput(2, "/call", parameters)[1]);
+        assertEquals("Player 1 called. Now time to draw!\nAll funds: 63.    Current bet: 16", gp.processInput(1, "/call", parameters)[1]);
         parameters.clear();
         gp.processInput(0, "/draw", parameters);
         assertEquals("Now is time to draw. You cannot raise!", gp.processInput(0, "/raise", parameters)[1]);
@@ -224,9 +224,32 @@ public class GameProtocolTest {
         parameters.add(22);
         gp.processInput(0, "/call", parameters);
         gp.processInput(1, "/fold", parameters);
-        assertEquals("Player 2 raised. Now player 0\nAll funds: 116.    Current bet: 22", gp.processInput(2, "/raise", parameters)[1]);
-        assertEquals("Player 0 folded. Now player 2\nAll funds: 116.    Current bet: 22", gp.processInput(0, "/fold", parameters)[1]);
+        assertEquals("Player 2 raised. Now player 0\nAll funds: 101.    Current bet: 22", gp.processInput(2, "/raise", parameters)[1]);
+        assertEquals("Player 0 folded. Now player 2\nAll funds: 101.    Current bet: 22", gp.processInput(0, "/fold", parameters)[1]);
         assertEquals("Game is over. Enter /result to see result.", gp.processInput(2, "/call", parameters)[1]);
+    }
+
+    @Test
+    public void moneyRound() {
+        parameters.add(5);
+        gp.processInput(0, "/create", parameters);
+        gp.processInput(0, "/join", parameters);
+        gp.processInput(1, "/join", parameters);
+        gp.processInput(0, "/start", parameters);
+        parameters.clear();
+        parameters.add(15);
+        assertEquals("Player 0 raised. Now player 1\nAll funds: 25.    Current bet: 15", gp.processInput(0, "/raise", parameters)[1]);
+        assertEquals("Money: 35", gp.processInput(0, "/money", parameters)[1]);
+        assertEquals("Player 1 called. Now player 0\nAll funds: 40.    Current bet: 15", gp.processInput(1, "/call", parameters)[1]);
+        assertEquals("Money: 35", gp.processInput(1, "/money", parameters)[1]);
+        parameters.clear();
+        parameters.add(16);
+        assertEquals("Player 0 raised. Now player 1\nAll funds: 41.    Current bet: 16", gp.processInput(0, "/raise", parameters)[1]);
+        assertEquals("Money: 34", gp.processInput(0, "/money", parameters)[1]);
+        parameters.clear();
+        parameters.add(17);
+        assertEquals("Player 1 raised. Now player 0\nAll funds: 43.    Current bet: 17", gp.processInput(1, "/raise", parameters)[1]);
+        assertEquals("Money: 33", gp.processInput(1, "/money", parameters)[1]);
     }
 
     @Test
@@ -237,7 +260,6 @@ public class GameProtocolTest {
         gp.processInput(1, "/join", parameters);
         gp.processInput(2, "/join", parameters);
         gp.processInput(0, "/start", parameters);
-
         assertEquals("Player 0 folded. Now player 1\nAll funds: 15.    Current bet: 5", gp.processInput(0, "/fold", parameters)[1]);
         assertEquals("It's: 1 round. Now playing player nr: 1", gp.processInput(0, "/state", parameters)[1]);
         gp.processInput(1, "/call", parameters);

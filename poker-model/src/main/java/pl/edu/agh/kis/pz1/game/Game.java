@@ -210,6 +210,9 @@ public class Game {
             queue.remove(0);
             if (queue.size() == 0) {
                 queue = new ArrayList<>(players);
+                for (Player p:players) {
+                    p.setFundsOnTable(0);
+                }
                 currentRound++;
             }
             nextPlayer = queue.get(0);
@@ -248,7 +251,8 @@ public class Game {
             case(1) -> {
                 if (lastRaised != player){
                     if (player.call(bet)) {
-                        addFunds(bet);
+                        addFunds(bet-player.getFundsOnTable());
+                        player.setFundsOnTable(bet);
                         nextPlayer();
                         return true;
                     } else return false;
@@ -261,7 +265,8 @@ public class Game {
                 if (wage <= bet) return false;
                 if (player.raise(wage)){
                     bet = wage;
-                    addFunds(bet);
+                    addFunds(bet-player.getFundsOnTable());
+                    player.setFundsOnTable(bet);
                     queue = new ArrayList<>(players);
                     queue.remove(player);
                     queue.add(0, player);
