@@ -61,7 +61,13 @@ public class Game {
      * Deck of 52 cards.
      */
     private Deck deck;
+    /**
+     * Queue of players.
+     */
     private List<Player> queue;
+    /**
+     * Player that last raised.
+     */
     private Player lastRaised;
 
     /**

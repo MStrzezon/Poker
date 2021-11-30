@@ -29,7 +29,6 @@ public class Player {
      * player hand with cards.
      */
     private final Hand hand;
-    private int lastMove;
 
     /**
      * Creates player with id and 50 funds.
@@ -85,7 +84,6 @@ public class Player {
     public boolean call(int wage) {
         if (funds - wage > 0) {
             funds -= wage;
-            lastMove = 1;
             return true;
         }
         else return false;
@@ -100,7 +98,6 @@ public class Player {
     public boolean raise(int newWage) {
         if (funds - newWage >= 0) {
             funds -= newWage;
-            lastMove = 2;
             return true;
         }
         else return false;

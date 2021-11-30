@@ -233,12 +233,6 @@ public class GameTest {
         assertTrue(game.makeAMove(2, 12, game.getPlayers().get(1)));
         assertEquals(2, game.getCurrentPlayer());
         assertEquals(2, game.getCurrentRound());
-        assertTrue(game.makeAMove(1, 12, game.getPlayers().get(2)));
-        assertEquals(1, game.getCurrentPlayer());
-        assertEquals(2, game.getCurrentRound());
-        money = game.getAllFunds();
-        assertTrue(game.makeAMove(1, 12, game.getPlayers().get(1)));
-        assertEquals(money, game.getAllFunds());
     }
 
     @Test
