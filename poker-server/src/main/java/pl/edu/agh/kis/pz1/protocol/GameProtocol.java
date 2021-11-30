@@ -336,7 +336,7 @@ public class GameProtocol {
         } else if (!game.isInGame(userId)) {
             return new String[]{"ONE", "You should join to the game to see your money in game!"};
         } else {
-            return new String[]{"ONE", "Funds: " + game.getPlayer(userId).getFunds() };
+            return new String[]{"ONE", "Funds: " + game.getAllFunds() };
         }
     }
 
