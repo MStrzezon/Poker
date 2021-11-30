@@ -17,7 +17,7 @@ public class Server {
     /**
      * max number of players in game.
      */
-    public static int maxPlayers;
+    private static int maxPlayers;
     /**
      * logger.
      */
@@ -29,6 +29,22 @@ public class Server {
      */
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;}
+
+    /**
+     * Sets maxPlayers
+     * @param maxPlayers max number of players in game
+     */
+    public static void setMaxPlayers(int maxPlayers) {
+        Server.maxPlayers = maxPlayers;
+    }
+
+    /**
+     * Gets maxPlayers
+     * @return max number players in game
+     */
+    public static int getMaxPlayers() {
+        return maxPlayers;
+    }
 
     /**
      * starts server and waiting for clients.

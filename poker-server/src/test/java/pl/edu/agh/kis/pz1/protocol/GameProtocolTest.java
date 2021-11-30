@@ -19,7 +19,7 @@ public class GameProtocolTest {
     public void setUp() throws Exception {
         gp = new GameProtocol();
         parameters = new ArrayList<Integer>();
-        Server.maxPlayers = 4;
+        Server.setMaxPlayers(4);
     }
 
     @After

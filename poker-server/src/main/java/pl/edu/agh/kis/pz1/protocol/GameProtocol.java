@@ -212,8 +212,8 @@ public class GameProtocol {
     private String[] join(int userId) {
         if (state == GameState.NOT_CREATED) return new String[]{"ONE",
                 ENTER_TO_CREATE_GAME};
-        if (state==GameState.CREATED && game.getPlayers().size() == Server.maxPlayers) {
-            return new String[]{"ONE", "Too many participants. Max number of players: " + Server.maxPlayers};
+        if (state==GameState.CREATED && game.getPlayers().size() == Server.getMaxPlayers()) {
+            return new String[]{"ONE", "Too many participants. Max number of players: " + Server.getMaxPlayers()};
         }
         if (state == GameState.CREATED && !game.isInGame(userId) && game.addPlayer(userId)) {
             return new String[]{"ONE", "You joined the game, your number in game: " + (game.getPlayers().size() - 1)};
