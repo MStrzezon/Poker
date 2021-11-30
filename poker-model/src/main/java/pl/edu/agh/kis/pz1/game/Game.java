@@ -5,6 +5,7 @@ import pl.edu.agh.kis.pz1.cards.Deck;
 import pl.edu.agh.kis.pz1.player.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /** Game is a class of representation 5 Cards Daw Poker.
@@ -59,6 +60,7 @@ public class Game {
     /**
      * Deck of 52 cards.
      */
+    private List<Player> queue;
     private Deck deck;
 
     /**
@@ -75,6 +77,7 @@ public class Game {
         this.currentRound = 1;
         currentDrawPlayer = 0;
         this.players = new ArrayList<>();
+        this.queue = new ArrayList<>();
         this.deck = new Deck();
     }
 
@@ -168,7 +171,9 @@ public class Game {
     public boolean addPlayer(int playerId) {
         if (players.size() == 4) { return false; }
         else {
-            players.add(new Player(playerId));
+            Player p = new Player(playerId);
+            players.add(p);
+            queue.add(p);
             addFunds(ante);
             return true;
         }
@@ -191,14 +196,17 @@ public class Game {
      * @return <code>Player</code> who is to play now.
      */
     public Player nextPlayer() {
+
         Player nextPlayer;
         while(true) {
-            if (currentPlayer == players.size()-1) {
-                currentPlayer = -1;
-                currentRound += 1;
+            queue.remove(0);
+            if (queue.size() == 0) {
+                queue = new ArrayList<>(players);
+                currentRound++;
             }
-            nextPlayer = players.get(++currentPlayer);
+            nextPlayer = queue.get(0);
             if (nextPlayer.getIsInPlay()) {
+                currentPlayer = players.indexOf(nextPlayer);
                 return nextPlayer;
             }
         }
@@ -227,6 +235,7 @@ public class Game {
      *                <code>false</code> otherwise.
      */
     public boolean makeAMove(int type, int wage, Player player) {
+        if(!player.getIsInPlay()) return false;
         switch (type) {
             case(1) -> {
                 if (player.call(bet)){
@@ -239,9 +248,12 @@ public class Game {
             case(2) -> {
                 if (wage <= bet) return false;
                 if (player.raise(wage)){
-                    nextPlayer();
                     bet = wage;
                     addFunds(bet);
+                    queue = new ArrayList<>(players);
+                    queue.remove(player);
+                    queue.add(0, player);
+                    nextPlayer();
                     return true;
                 } else return false;
             }
