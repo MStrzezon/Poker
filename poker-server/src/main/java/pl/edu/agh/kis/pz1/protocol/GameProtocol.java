@@ -656,12 +656,10 @@ public class GameProtocol {
      * @return information about current situation
      */
     private String[] emptyMessage(int userId) {
-        String message = "";
+        String message;
+        message = "Game ID: " + game.getId() + ". Number of players: " + game.getPlayers().size() + "\n" +
+                "All funds: " + game.getAllFunds() + ". Your funds: " + game.getPlayer(userId).getFunds() + "\n";
         if (state==GameState.NOT_CREATED) message = "Game not created yet";
-        if (state==GameState.CREATED) {
-            message = "Game ID: " + game.getId() + ". Number of players: " + game.getPlayers().size() + "\n" +
-                    "All funds: " + game.getAllFunds() + ". Your funds: " + game.getPlayer(userId).getFunds() + "\n";
-        }
         if (state==GameState.ROUND) {
             message += "State: ROUND. Player: " + game.getCurrentPlayer() + ". Round: " + game.getCurrentRound() + "\n";
         }
