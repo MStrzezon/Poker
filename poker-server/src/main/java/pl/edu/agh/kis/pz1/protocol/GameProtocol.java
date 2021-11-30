@@ -661,13 +661,13 @@ public class GameProtocol {
                 "All funds: " + game.getAllFunds() + ". Your funds: " + game.getPlayer(userId).getFunds() + "\n";
         if (state==GameState.NOT_CREATED) message = "Game not created yet";
         if (state==GameState.ROUND) {
-            message += "State: ROUND. Player: " + game.getCurrentPlayer() + ". Round: " + game.getCurrentRound() + "\n";
+            message += "State: ROUND. Player: " + game.getCurrentPlayer() + ". Round: " + game.getCurrentRound();
         }
         if (state==GameState.DRAW) {
-            message += "State: DRAW. Player: " + game.getCurrentPlayer() + "\n";
+            message += "State: DRAW. Player: " + game.getCurrentPlayer();
         }
         if (state==GameState.END) {
-            message += "State: END.\n";
+            message += "State: END.";
         }
         return new String[] {"ONE", message};
     }
