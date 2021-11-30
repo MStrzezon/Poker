@@ -67,7 +67,11 @@ public class Server {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        if (args.length != 1 && (Integer.parseInt(args[0]) < 2 || Integer.parseInt(args[0]) > 4)) {
+        if (args.length != 1) {
+            logger.log(Level.WARNING, "Usage: java -jar ... <max_players(2-4)>");
+            System.exit(1);
+        }
+        if (Integer.parseInt(args[0]) < 2 || Integer.parseInt(args[0]) > 4) {
             logger.log(Level.WARNING, "Usage: java -jar ... <max_players(2-4)>");
             System.exit(1);
         }
