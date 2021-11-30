@@ -111,6 +111,9 @@ public class GameProtocol {
             case "/money" -> {
                 return money(userId);
             }
+            case "/funds" -> {
+                return funds(userId);
+            }
             case "/hand" -> {
                 return hand(userId);
             }
@@ -156,6 +159,8 @@ public class GameProtocol {
                 IN GAME:\040\040\040\040\040\040\040\040\040\040
                     /players - print number of players in game.
                     /id - your id in game.
+                    /money - print your money.
+                    /funds - print money on the table.
                     /hand - print all your cards.
                     /call - call a bet.
                     /raise {number} - increase the opening bet. For example: /raise 10
@@ -315,6 +320,23 @@ public class GameProtocol {
             return new String[]{"ONE", "You should join to the game to see your money in game!"};
         } else {
             return new String[]{"ONE", "Money: " + game.getPlayer(userId).getFunds() };
+        }
+    }
+
+    /**
+     * Supports the case /funds.
+     * @param userId id of user.
+     * @return       <code>The game has not been created yet! Enter /create {ante} to create a game! Max ante: 10</code>
+     *               <code>You should join to the game to see your money in game!</code>
+     *               <code>Funds: `money on the table`</code>
+     */
+    private String[] funds(int userId) {
+        if (state == GameState.NOT_CREATED) {
+            return new String[]{"ONE", ENTER_TO_CREATE_GAME};
+        } else if (!game.isInGame(userId)) {
+            return new String[]{"ONE", "You should join to the game to see your money in game!"};
+        } else {
+            return new String[]{"ONE", "Funds: " + game.getPlayer(userId).getFunds() };
         }
     }
 
