@@ -60,8 +60,9 @@ public class Game {
     /**
      * Deck of 52 cards.
      */
-    private List<Player> queue;
     private Deck deck;
+    private List<Player> queue;
+    private Player lastRaised;
 
     /**
      * Creates game.
@@ -79,6 +80,7 @@ public class Game {
         this.players = new ArrayList<>();
         this.queue = new ArrayList<>();
         this.deck = new Deck();
+        lastRaised = null;
     }
 
     /**
@@ -238,12 +240,16 @@ public class Game {
         if(!player.getIsInPlay()) return false;
         switch (type) {
             case(1) -> {
-                if (player.call(bet)){
-                    addFunds(bet);
+                if (lastRaised != player){
+                    if (player.call(bet)) {
+                        addFunds(bet);
+                        nextPlayer();
+                        return true;
+                    } else return false;
+                } else {
                     nextPlayer();
                     return true;
-                } else return false;
-
+                }
             }
             case(2) -> {
                 if (wage <= bet) return false;
@@ -253,6 +259,8 @@ public class Game {
                     queue = new ArrayList<>(players);
                     queue.remove(player);
                     queue.add(0, player);
+                    queue.add(player);
+                    lastRaised = player;
                     nextPlayer();
                     return true;
                 } else return false;

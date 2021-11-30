@@ -213,33 +213,32 @@ public class GameTest {
         assertFalse(game.makeAMove(2, 51, game.getPlayers().get(1)));
         assertEquals(1, game.getCurrentPlayer());
         assertEquals(1, game.getCurrentRound());
-        assertTrue(game.makeAMove(2, 11, game.getPlayers().get(1)));
+        assertTrue(game.makeAMove(2, 10, game.getPlayers().get(1)));
         assertEquals(0, game.getCurrentPlayer());
         assertEquals(1, game.getCurrentRound());
         assertTrue(game.makeAMove(1, 51, game.getPlayers().get(0)));
         assertEquals(2, game.getCurrentPlayer());
         assertEquals(1, game.getCurrentRound());
-        assertTrue(game.makeAMove(2, 12, game.getPlayers().get(2)));
-        assertEquals(0, game.getCurrentPlayer());
-        assertEquals(1, game.getCurrentRound());
-        assertTrue(game.makeAMove(1, 12, game.getPlayers().get(0)));
+        assertTrue(game.makeAMove(1, 12, game.getPlayers().get(2)));
         assertEquals(1, game.getCurrentPlayer());
         assertEquals(1, game.getCurrentRound());
-        assertTrue(game.makeAMove(3, 12, game.getPlayers().get(1)));
+        int money = game.getAllFunds();
+        assertTrue(game.makeAMove(1, 12, game.getPlayers().get(1)));
+        assertEquals(money, game.getAllFunds());
         assertEquals(0, game.getCurrentPlayer());
         assertEquals(2, game.getCurrentRound());
-        assertTrue(game.makeAMove(1, 12, game.getPlayers().get(0)));
+        assertTrue(game.makeAMove(3, 12, game.getPlayers().get(0)));
+        assertEquals(1, game.getCurrentPlayer());
+        assertEquals(2, game.getCurrentRound());
+        assertTrue(game.makeAMove(2, 12, game.getPlayers().get(1)));
         assertEquals(2, game.getCurrentPlayer());
         assertEquals(2, game.getCurrentRound());
-        assertFalse(game.makeAMove(1, 12, game.getPlayers().get(1)));
-//        assertEquals(2, game.getCurrentPlayer());
-//        assertEquals(1, game.getCurrentRound());
-//        assertFalse(game.makeAMove(2, 1, game.getPlayers().get(2)));
-//        assertEquals(2, game.getCurrentPlayer());
-//        assertEquals(1, game.getCurrentRound());
-//        assertTrue(game.makeAMove(1, 1, game.getPlayers().get(2)));
-//        assertEquals(0, game.getCurrentPlayer());
-//        assertEquals(2, game.getCurrentRound());
+        assertTrue(game.makeAMove(1, 12, game.getPlayers().get(2)));
+        assertEquals(1, game.getCurrentPlayer());
+        assertEquals(2, game.getCurrentRound());
+        money = game.getAllFunds();
+        assertTrue(game.makeAMove(1, 12, game.getPlayers().get(1)));
+        assertEquals(money, game.getAllFunds());
     }
 
     @Test
