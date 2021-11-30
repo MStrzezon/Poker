@@ -74,8 +74,7 @@ public class Player {
     public int getFundsOnTable() { return fundsOnTable; }
 
     /**
-     * Gets fundsOnTable
-     * @return player funds on the table.
+     * Sets fundsOnTable
      */
     public void setFundsOnTable(int newFundsOnTable) {
         fundsOnTable = newFundsOnTable;
