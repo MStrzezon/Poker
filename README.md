@@ -1,4 +1,6 @@
 # SOCKET POKER GAME
+## STRUKTURA PROGRAMU
+
 ## ZASADY GRY:
 1. Gracz na początku musi stworzyć grę podając ante.
 2. Po stworzeniu gry, należy dołączyć do gry.
