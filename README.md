@@ -1,5 +1,11 @@
 # SOCKET POKER GAME
 ## STRUKTURA PROGRAMU
+* Javadoc - zawiera dokumentację projektu
+* poker-client - klient gry
+* poker-common - przydatne klasy
+* poker-model - logika gry
+* poker-server - zawiera serwer gry i protokół komunikacyjny
+* sonar-cube - zawiera raport z sonar-cuber (pokrycie testami, code smells)
 
 ## ZASADY GRY:
 1. Gracz na początku musi stworzyć grę podając ante.
