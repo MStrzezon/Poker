@@ -37,7 +37,6 @@ public class GameProtocolTest {
         assertEquals("Game created but not started!", gp.processInput(0, "/state", parameters)[1]);
         gp.processInput(0, "/start", parameters);
         assertEquals("It's: 1 round. Now playing player nr: 0", gp.processInput(0, "/state", parameters)[1]);
-
         gp.processInput(0, "/call", parameters);
         assertEquals("It's: 1 round. Now playing player nr: 1", gp.processInput(1, "/state", parameters)[1]);
         gp.processInput(1, "/call", parameters);
