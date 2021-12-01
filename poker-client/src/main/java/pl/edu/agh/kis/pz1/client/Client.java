@@ -7,14 +7,33 @@ import java.util.Scanner;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-
+/**
+ * Client class for the poker game
+ */
 public class Client {
+    /**
+     * socket
+     */
     private Socket socket;
+    /**
+     * buffer to reading
+     */
     private BufferedReader bufferedReader;
+    /**
+     * buffer to writing
+     */
     private BufferedWriter bufferedWriter;
+    /**
+     * username
+     */
     private String username;
     private static final Logger logger = Logger.getLogger( Client.class.getName() );
 
+    /**
+     * Creates client
+     * @param socket   socket
+     * @param username client username
+     */
     public Client(Socket socket, String username) {
         try {
             this.socket = socket;
@@ -26,6 +45,9 @@ public class Client {
         }
     }
 
+    /**
+     * Sends message on bufferWriter.
+     */
     public void sendMessage() {
         try {
             bufferedWriter.write(username);
@@ -44,6 +66,9 @@ public class Client {
         }
     }
 
+    /**
+     * In loop waiting for message from server
+     */
     public void listenForMessage() {
         new Thread(() -> {
             String messageFromServer;
@@ -59,6 +84,9 @@ public class Client {
         }).start();
     }
 
+    /**
+     * Closes bufferReader, bufferWriter, socket
+     */
     public void closeEverything() {
         try {
             if (bufferedReader != null) {
@@ -75,6 +103,11 @@ public class Client {
         }
     }
 
+    /**
+     * Starts client
+     * @param args parameters
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         PropertyConfigurator.configure("./poker-client/src/main/resources/log4j.properties");
         Scanner s = new Scanner(System.in);
