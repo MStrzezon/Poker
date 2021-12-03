@@ -20,9 +20,10 @@ Runda licytacji trwa do momentu, gdy wszyscy gracze włożą tą samą ilość �
 
 ## SPOSÓB URUCHOMIENIA PROGRAMU:
 ### Aby uruchomić program:
-1) Należy uruchomić plik 'poker-server-1.0-jar-with-dependencies.jar' podając jako pierwszy argument maksymalną liczbę
+1) W folderze głównym w terminalu wykonać komendę: mvn clean install. Pliki jar utworzą się w folderze poker-client/target i poker-server/target.
+2) Należy uruchomić plik 'poker-server-1.0-jar-with-dependencies.jar' podając jako pierwszy argument maksymalną liczbę
 graczy mogącą uczestniczyć w grze (od 2 do 4). W ten sposób uruchomimy serwer rozgrywki.
-2) Należy uruchomić plik 'poker-client-1.0-jar-with-dependencies.jar'. W ten sposób będziemy mogli grać w pokera.
+3) Należy uruchomić plik 'poker-client-1.0-jar-with-dependencies.jar'. W ten sposób będziemy mogli grać w pokera.
 
 ## PROTOKÓł KOMUNIKACJI:
 ### MOZLIWE KOMUNIKATY WYSYLANE PRZEZ KLIENTA:
