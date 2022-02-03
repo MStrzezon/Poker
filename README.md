@@ -1,5 +1,13 @@
-# Poker-game
-ZASADY GRY:
+# SOCKET POKER GAME
+## STRUKTURA PROGRAMU
+* Javadoc - zawiera dokumentację projektu
+* poker-client - klient gry
+* poker-common - przydatne klasy
+* poker-model - logika gry
+* poker-server - zawiera serwer gry i protokół komunikacyjny
+* sonar-cube - zawiera raport z sonar-cuber (pokrycie testami, code smells)
+
+## ZASADY GRY:
 1. Gracz na początku musi stworzyć grę podając ante.
 2. Po stworzeniu gry, należy dołączyć do gry.
 3. Gdy wystarczająca liczba graczy dołączy, należy wystartować grę.
@@ -10,14 +18,15 @@ Runda licytacji trwa do momentu, gdy wszyscy gracze włożą tą samą ilość �
 7. Po tym przechodzimy do ostatniej rundy licytacji, która rozgrywa się na takich samych zasadach jak pierwsza.
 8. Po skończeniu gry, gracz może wyświetlić ranking i zobaczyć, które miejsce zajął. Należy zamknąć grę całkowicie, by móc rozpocząć nową.
 
-SPOSÓB URUCHOMIENIA PROGRAMU:
-Aby uruchomić program:
-1) Należy uruchomić plik 'poker-server-1.0-jar-with-dependencies.jar' podając jako pierwszy argument maksymalną liczbę
+## SPOSÓB URUCHOMIENIA PROGRAMU:
+### Aby uruchomić program:
+1) W folderze głównym w terminalu wykonać komendę: mvn clean install. Pliki jar utworzą się w folderze poker-client/target i poker-server/target.
+2) Należy uruchomić plik 'poker-server-1.0-jar-with-dependencies.jar' podając jako pierwszy argument maksymalną liczbę
 graczy mogącą uczestniczyć w grze (od 2 do 4). W ten sposób uruchomimy serwer rozgrywki.
-2) Należy uruchomić plik 'poker-client-1.0-jar-with-dependencies.jar'. W ten sposób będziemy mogli grać w pokera.
+3) Należy uruchomić plik 'poker-client-1.0-jar-with-dependencies.jar'. W ten sposób będziemy mogli grać w pokera.
 
-PROTOKÓł KOMUNIKACJI:
-MOZLIWE KOMUNIKATY WYSYLANE PRZEZ KLIENTA:
+## PROTOKÓł KOMUNIKACJI:
+### MOZLIWE KOMUNIKATY WYSYLANE PRZEZ KLIENTA:
         /help - wypisuje wszystkie możliwe komenty | brak parametrów
             IN MENU:
                 /help - print all commands.
@@ -136,7 +145,7 @@ MOZLIWE KOMUNIKATY WYSYLANE PRZEZ KLIENTA:
             * "Game ID: " + game.getId() + ". Number of players: " + game.getPlayers().size() + "\n" +
                                   "All funds: " + game.getAllFunds() +
                                   ". Your funds: " + game.getPlayer(userId).getFunds() + "\n"
-    MOZLIWE KOMUNIKATY WYSYLANE PRZEZ SERWER:
+### MOZLIWE KOMUNIKATY WYSYLANE PRZEZ SERWER:
         * "Welcome " + clientUsername + ". A number of participants: " + clientHandlers.size() +
                             "\nEnter /help to see all commands."
         * Pozostałe to komunikaty odpowiedzi na zapytania klienta, są wypisane powyżej.
